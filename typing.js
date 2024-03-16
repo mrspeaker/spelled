@@ -31,6 +31,11 @@ export const update_typing = (state) => {
       player.tx = cursor.x;
       keys.clear(prev_ch);
       set_cur_word(state);
+    } else if (keys.isDown("Backspace")) {
+      cursor.x -= 1;
+      keys.clear("Backspace");
+      player.tx = cursor.x;
+      state.cur_word = null;
     }
   }
 };

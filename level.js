@@ -2,16 +2,16 @@ export const mk_level = () => {
   const txt = `
 
 
-this is the level it's made of text
+oh the level is made of text wowo
 
 
-is the player one full tile high?
-                       u
-                       p
+of a great fortune must be in want
+                   u
+                   p
 it's not   up to me to say really
-       u         g
-       p         o
-beyond the recesses of the crevesses
+       u            g
+       p            o
+beyond the recesses of the southern
 `;
   const lines = txt.split("\n").slice(1).slice(0, -1);
   const longest = lines.reduce(
