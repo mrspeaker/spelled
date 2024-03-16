@@ -1,11 +1,26 @@
 <!DOCTYPE html>
 <html>
-  <style>
-    body {
-      background-color: #112;
-    }
-  </style>
+  <head>
+    <style>
+      @font-face {
+        font-family: "dos";
+        src: url("res/fonts/web_ibm_dos_iso8.woff") format("woff");
+        font-style: normal;
+        font-weight: 400;
+      }
+      body {
+        background-color: #112;
+        color: #888;
+        font-family: dos, monospace;
+      }
+    </style>
+  </head>
+  <body>
+    <div>
+      <canvas id="board" width="960" height="540" />
+    </div>
+    <div>spelled</div>
 
-  <canvas id="board" width="430" height="270" />
-  <script src="main.js" type="module"></script>
+    <script src="main.js" type="module"></script>
+  </body>
 </html>

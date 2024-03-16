@@ -15,7 +15,7 @@ export const render = (renderer, state) => {
   ctx.fillStyle = "hsl(140, 50%, 10%)";
   ctx.fillRect(0, 0, w, h);
   ctx.fillStyle = "#8ae";
-  ctx.font = "20px monospace";
+  ctx.font = "16px 'dos', monospace";
 
   ctx.save();
   ctx.translate(-camera.x, -camera.y);
@@ -36,7 +36,8 @@ export const render = (renderer, state) => {
     ctx.fillText("|", cursor.x * tw - tw / 2.2, cursor.y * th);
   ctx.fillText("x", player.x * tw, player.y * th);
 
-  ctx.fillText(`${cursor.x} ${cursor.y}`, 2, 2);
-
   ctx.restore();
+
+  ctx.fillStyle = "hsl(20, 50%, 70%)";
+  ctx.fillText(`${cursor.x} ${cursor.y}`, 2, 2);
 };
