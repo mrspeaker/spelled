@@ -15,7 +15,7 @@ const state = {
   cursor: mk_cursor(103, 56),
   cur_word: null,
   tw: 10,
-  th: 12,
+  th: 18,
   w: renderer.w,
   h: renderer.h,
 };

@@ -2,3 +2,11 @@
 
 
 - later skill: words are related to other nearby words, highlihted and can start typing them to teleport
+
+  - might work better as a dungeon crawler than a platformer... but how does the typing work if you are, say, in a corridor:
+
+
+
+this is the level
+a    x
+boop of the thing
