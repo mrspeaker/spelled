@@ -8,5 +8,10 @@ export const mk_player = (x, y) => {
 };
 
 export const update_player = (p) => {
-  p.x += (p.tx - p.x) * 0.01;
+  if (p.y === p.ty) {
+    p.x += (p.tx - p.x) * 0.01;
+  } else {
+    p.y = p.ty;
+    p.x = p.tx;
+  }
 };

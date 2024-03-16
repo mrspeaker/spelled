@@ -32,4 +32,6 @@ export const render = (renderer, state) => {
   ((Date.now() / 500) | 0) % 2 &&
     ctx.fillText("|", cursor.x * tw - tw / 2.2, cursor.y * th);
   ctx.fillText("x", player.x * tw, player.y * th);
+
+  ctx.fillText(`${cursor.x} ${cursor.y}`, 2, 2);
 };

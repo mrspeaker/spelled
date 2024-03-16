@@ -3,15 +3,16 @@ export const mk_level = () => {
 
 
 oh the level is made of text wowo
-
-
+                                  x
+                                  x
 of a great fortune must be in want
-                   u
-                   p
+                   u              x
+                   p              x
 it's not   up to me to say really
-       u            g
-       p            o
+       u            g             x
+       p            o             x
 beyond the recesses of the southern
+                                  x
 `;
   const lines = txt.split("\n").slice(1).slice(0, -1);
   const longest = lines.reduce(
@@ -53,6 +54,9 @@ beyond the recesses of the southern
 
   const word_at_xy = (x, y) => {
     const token = get_by_index(x, y);
+    if (!token) {
+      console.log(x, y, indexes[y].words);
+    }
     const word = token.word;
     const char_idx = x - token.start;
     const start = token.start;
