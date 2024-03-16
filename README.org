@@ -1,0 +1,4 @@
+* typin'
+
+
+- later skill: words are related to other nearby words, highlihted and can start typing them to teleport

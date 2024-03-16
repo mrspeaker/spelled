@@ -14,47 +14,51 @@ export const update_typing = (state) => {
   const prev_word = level.word_at_xy(next_word.start - 1, cursor.y);
   const down_word = level.word_at_xy(cursor.x, cursor.y + 1);
   const up_word = level.word_at_xy(cursor.x, cursor.y - 1);
-  console.log(up_word);
+
   const next_ch = (next_word.word + " ")[cursor.x - next_word.start];
   const prev_ch = (prev_word.word + " ")[0];
   const down_ch = (down_word.word + " ")[0];
   const up_ch = (up_word.word + " ")[0];
 
-  const has_down = down_ch !== " ";
-  const has_up = up_ch !== " ";
+  const checks = [
+    next_ch,
+    "Backspace",
+    prev_ch,
+    up_ch !== " " ? up_ch : null,
+    down_ch !== " " ? down_ch : null,
+  ];
+  const downs = checks.map((ch) => ch && keys.isDown(ch));
+  const [isNext, isDel, isPrev, isUp, isDown] = downs;
 
-  // type correct letter?
-  if (keys.isDown(next_ch)) {
+  if (isNext) {
     cursor.x += 1;
     if (next_ch === " ") {
+      // Word is "done" - advance player
       player.tx = cursor.x;
     }
-    keys.clear(next_ch);
+  } else if (isPrev) {
+    cursor.x = prev_word.start;
+    player.tx = cursor.x;
+  } else if (isDel) {
+    cursor.x -= 1;
+    player.tx = cursor.x;
+  } else if (isDown) {
+    cursor.y += 3;
+    player.tx = cursor.x;
+    player.ty = cursor.y - 1;
+  } else if (isUp) {
+    cursor.y -= 3;
+    player.tx = cursor.x;
+    player.ty = cursor.y - 1;
+  }
+
+  if (!isDel) {
     set_cur_word(state);
   } else {
-    // typo, or switching target words
-    if (keys.isDown(prev_ch)) {
-      cursor.x = prev_word.start;
-      player.tx = cursor.x;
-      keys.clear(prev_ch);
-      set_cur_word(state);
-    } else if (keys.isDown("Backspace")) {
-      cursor.x -= 1;
-      keys.clear("Backspace");
-      player.tx = cursor.x;
-      state.cur_word = null;
-    } else if (has_down && keys.isDown(down_ch)) {
-      cursor.y += 3;
-      player.tx = cursor.x;
-      player.ty = cursor.y - 1;
-      set_cur_word(state);
-      keys.clear(down_ch);
-    } else if (has_up && keys.isDown(up_ch)) {
-      cursor.y -= 3;
-      player.tx = cursor.x;
-      player.ty = cursor.y - 1;
-      set_cur_word(state);
-      keys.clear(up_ch);
-    }
+    // Dodgy back word
+    state.cur_word = null;
   }
+
+  // Clear any pressed keys
+  downs.forEach((isDown, i) => isDown && keys.clear(checks[i]));
 };
