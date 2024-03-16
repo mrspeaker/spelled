@@ -11,11 +11,14 @@ export const mk_renderer = (dom, selector) => {
 
 export const render = (renderer, state) => {
   const { ctx, w, h } = renderer;
-  const { level, tw, th, cursor, player, cur_word } = state;
+  const { level, tw, th, cursor, player, cur_word, camera } = state;
   ctx.fillStyle = "hsl(140, 50%, 10%)";
   ctx.fillRect(0, 0, w, h);
   ctx.fillStyle = "#8ae";
   ctx.font = "20px monospace";
+
+  ctx.save();
+  ctx.translate(-camera.x, -camera.y);
 
   for (let j = 0; j < level.h; j++) {
     for (let i = 0; i < level.w; i++) {
@@ -34,4 +37,6 @@ export const render = (renderer, state) => {
   ctx.fillText("x", player.x * tw, player.y * th);
 
   ctx.fillText(`${cursor.x} ${cursor.y}`, 2, 2);
+
+  ctx.restore();
 };

@@ -1,16 +1,16 @@
 export const mk_level = () => {
   const txt = `
-
-
+                                  x
+                                  x
 oh the level is made of text wowo
-                                  x
-                                  x
+     i                  i         x
+     s                  n         x
 of a great fortune must be in want
                    u              x
                    p              x
-it's not   up to me to say really
-       u            g             x
-       p            o             x
+it's not    up to me to say really
+       u             g            x
+       p             o            x
 beyond the recesses of the southern
                                   x
 `;
