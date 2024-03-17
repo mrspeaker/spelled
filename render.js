@@ -1,21 +1,33 @@
 export const mk_renderer = (dom, selector) => {
   const ctx = dom.querySelector(selector).getContext("2d");
   ctx.textBaseline = "top";
+
+  const w2 = ctx.canvas.width / 2;
+  const h2 = ctx.canvas.height / 2;
+
+  var g = ctx.createRadialGradient(w2, h2, 0, w2, h2, ctx.canvas.height);
+  g.addColorStop(0, "rgba(0,0,0,0)");
+  g.addColorStop(0.8, "#000");
+
   return {
     ctx,
     canvas: ctx.canvas,
     w: ctx.canvas.width,
     h: ctx.canvas.height,
+    g,
   };
 };
 
 export const render = (renderer, state) => {
   const { ctx, w, h } = renderer;
   const { level, tw, th, cursor, player, cur_word, camera } = state;
-  ctx.fillStyle = "hsl(140, 50%, 5%)";
+  ctx.fillStyle = "hsl(140, 50%, 0%)";
   ctx.fillRect(0, 0, w, h);
-  ctx.fillStyle = "#8ae";
   ctx.font = "16px 'dos', monospace";
+
+  ctx.globalAlpha = 0.5;
+  ctx.drawImage(state.imgs.jim, 0, 0);
+  ctx.globalAlpha = 1.0;
 
   ctx.save();
   ctx.translate(-camera.x, -camera.y);
@@ -25,6 +37,7 @@ export const render = (renderer, state) => {
   const cx2 = Math.min(level.w, (cx + w / tw) | 0) + 1;
   const cy2 = Math.min(level.h, (cy + h / th) | 0) + 1;
 
+  ctx.fillStyle = "#8ae";
   for (let j = cy; j < cy2; j++) {
     for (let i = cx; i < cx2; i++) {
       ctx.fillText(level.chars[j][i], i * tw, j * th);
@@ -58,6 +71,9 @@ export const render = (renderer, state) => {
   );
 
   ctx.restore();
+  ctx.fillStyle = renderer.g;
+  ctx.rect(0, 0, w, h);
+  ctx.fill();
   ctx.fillStyle = "hsl(20, 50%, 70%)";
   ctx.fillText(`${cursor.x} ${cursor.y}`, 2, 2);
 };

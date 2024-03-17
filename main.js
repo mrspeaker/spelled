@@ -22,16 +22,24 @@ const state = {
 };
 
 const load_img = () => {
-  const to_load = [["ch", "ch-sheet.png"]];
   const imgs = {};
-  return new Promise((res) => {
-    const img = new Image();
-    img.src = "res/img/" + to_load[0][1];
-    img.addEventListener("load", () => {
-      imgs[to_load[0][0]] = img;
-      res(imgs);
-    });
-  });
+  const to_load = [
+    ["ch", "ch-sheet.png"],
+    ["jim", "ElectricBonsai_jimmijamjams.png"],
+  ].map(
+    (i) =>
+      new Promise((res) => {
+        const img = new Image();
+        img.src = "res/img/" + i[1];
+        img.addEventListener("load", () => {
+          console.log(i[0]);
+          imgs[i[0]] = img;
+          res();
+        });
+      })
+  );
+
+  return Promise.all(to_load).then((_) => imgs);
 };
 
 const update = (state) => {
