@@ -11,18 +11,18 @@ const state = {
   keys: mk_keys(document),
   level: mk_level(),
   camera: mk_camera(),
-  player: mk_player(103, 55),
-  cursor: mk_cursor(103, 56),
+  player: mk_player(59, 55),
+  cursor: mk_cursor(59, 56),
   cur_word: null,
-  tw: 10,
-  th: 18,
+  tw: 9,
+  th: 17,
   w: renderer.w,
   h: renderer.h,
   imgs: null,
 };
 
 const load_img = () => {
-  const to_load = [["ch", "ch.png"]];
+  const to_load = [["ch", "ch-sheet.png"]];
   const imgs = {};
   return new Promise((res) => {
     const img = new Image();
