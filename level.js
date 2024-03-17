@@ -67,6 +67,6 @@ export const mk_level = () => {
 export const find_free_ground = (level) => {
   return {
     x: (Math.random() * level.w) | 0,
-    y: ((Math.random() * (level.h / 3)) | 0) * 3 + 1,
+    y: ((Math.random() * (level.h / 3)) | 0) * 3 + 0,
   };
 };
