@@ -8,23 +8,6 @@ import { mk_camera, update_camera } from "./camera.js";
 import { mk_pickup, init_pickups, pickup_collisions } from "./pickup.js";
 import { update_physics } from "./physics.js";
 
-const renderer = mk_renderer(document, "#board");
-const state = {
-  keys: mk_keys(document),
-  level: mk_level(),
-  camera: mk_camera(),
-  player: mk_player(59, 55),
-  cursor: mk_cursor(59, 56),
-  entities: [],
-  cur_word: null,
-  tw: 9,
-  th: 17,
-  w: renderer.w,
-  h: renderer.h,
-  imgs: null,
-  flash: 0,
-};
-
 const load_img = () => {
   const imgs = {};
   const to_load = [
@@ -62,17 +45,44 @@ const update = (state) => {
   update_camera(state.camera, state);
 };
 
-const run = () => {
-  update(state);
-  render(renderer, state);
-  requestAnimationFrame(run);
+const run = (state, renderer) => {
+  const loop = (t) => {
+    const dt = t - state.t;
+    state.t = t;
+    state.dt = dt;
+    update(state);
+    render(renderer, state);
+    requestAnimationFrame(loop);
+  };
+  requestAnimationFrame(loop);
 };
 
-const init = async () => {
+const init = async (doc) => {
+  const renderer = mk_renderer(doc, "#board");
+
   const imgs = await load_img();
+
+  const state = {
+    t: 0,
+    last_t: 0,
+    dt: 0,
+    keys: mk_keys(doc),
+    level: mk_level(),
+    camera: mk_camera(),
+    player: mk_player(59, 55),
+    cursor: mk_cursor(59, 56),
+    entities: [],
+    cur_word: null,
+    tw: 9,
+    th: 17,
+    w: renderer.w,
+    h: renderer.h,
+    imgs,
+    flash: 0,
+  };
+
   init_pickups(state);
-  state.imgs = imgs;
-  run();
+  run(state, renderer);
 };
 
-init();
+init(document);

@@ -1,20 +1,27 @@
-export const mk_renderer = (dom, selector) => {
-  const ctx = dom.querySelector(selector).getContext("2d");
+export const mk_renderer = (doc, selector) => {
+  const ctx = doc.querySelector(selector).getContext("2d");
   ctx.textBaseline = "top";
+  const w = ctx.canvas.width;
+  const h = ctx.canvas.height;
 
-  const w2 = ctx.canvas.width / 2;
-  const h2 = ctx.canvas.height / 2;
-
+  const post_ctx = doc.createElement("canvas").getContext("2d");
+  post_ctx.canvas.setAttribute("width", w);
+  post_ctx.canvas.setAttribute("height", h);
+  const w2 = w / 2;
+  const h2 = h / 2;
   var g = ctx.createRadialGradient(w2, h2, 0, w2, h2, ctx.canvas.height);
   g.addColorStop(0, "rgba(0,0,0,0)");
-  g.addColorStop(0.8, "#000");
+  g.addColorStop(0.8, "rgb(0,0,0)");
+  post_ctx.fillStyle = g;
+  post_ctx.rect(0, 0, w, h);
+  post_ctx.fill();
 
   return {
     ctx,
     canvas: ctx.canvas,
-    w: ctx.canvas.width,
-    h: ctx.canvas.height,
-    g,
+    mask: post_ctx.canvas,
+    w,
+    h,
   };
 };
 
@@ -73,9 +80,6 @@ export const render = (renderer, state) => {
   });
 
   // Player
-  /*drawImage(image,
-    sx, sy, sw, sh,
-    dx, dy, dw, dh);    */
   const fr_x = Math.abs(player.vx) > 0.0 ? Math.floor(Date.now() / 100) % 3 : 0;
   const fr_y = player.vx < 0 ? 1 : 0;
   ctx.drawImage(
@@ -93,11 +97,9 @@ export const render = (renderer, state) => {
   ctx.restore();
 
   // Edge mask
-  ctx.fillStyle = renderer.g;
-  ctx.rect(0, 0, w, h);
-  ctx.fill();
+  ctx.drawImage(renderer.mask, 0, 0);
 
   // UI
   ctx.fillStyle = "hsl(20, 50%, 70%)";
-  ctx.fillText(`${cursor.x} ${cursor.y}`, 2, 2);
+  ctx.fillText(`${cursor.x} ${cursor.y}, ${state.dt.toFixed(0)}`, 2, 2);
 };
