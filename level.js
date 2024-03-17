@@ -63,3 +63,10 @@ export const mk_level = () => {
     word_at_xy,
   };
 };
+
+export const find_free_ground = (level) => {
+  return {
+    x: (Math.random() * level.w) | 0,
+    y: ((Math.random() * (level.h / 3)) | 0) * 3 + 1,
+  };
+};
