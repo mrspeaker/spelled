@@ -1,16 +1,26 @@
 * typin'
+** TODO
 
+** Ideas
 
 - later skill: words are related to other nearby words, highlihted and can start typing them to teleport
+- Gain a supply of "forward-word/ backward word/ sentence etc" shortcuts. Emacs/vim binds as powerups.
 
+  ** Other  PRototyep:
   - might work better as a dungeon crawler than a platformer... but how does the typing work if you are, say, in a corridor:
-
-
-
 this is the level
 a    x
 boop of the thing
+... maybe like, top down and the words are paths, can choose the forks
+
+*** Dum rando
+- tying rhythm game section.
+- typing of the dead section.
+- flappy bird typing tutor section
+- marquee text as moving platforms
 
 ** aesthetic
 https://www.gridsagegames.com/rexpaint/gallery.html
+
+- or, could be bookish style. Old parchment vibe with ANSI gfx on top
 

@@ -47,7 +47,7 @@ export const render = (renderer, state) => {
   const cy2 = Math.min(level.h, (cy + h / th) | 0) + 1;
 
   // Level text
-  ctx.fillStyle = "#8ae";
+  ctx.fillStyle = "#68c";
   for (let j = cy; j < cy2; j++) {
     for (let i = cx; i < cx2; i++) {
       ctx.fillText(level.chars[j][i], i * tw, j * th);
@@ -68,8 +68,8 @@ export const render = (renderer, state) => {
 
   ctx.fillStyle = "yellow";
   entities.forEach((e, i) => {
-    const on = Math.floor((Date.now() + i * 100) / 600) % 2 === 0;
-    ctx.fillText(on ? "*" : ".", e.x, e.y);
+    const on = Math.floor((Date.now() + i * 200) / 800) % 2 === 0;
+    ctx.fillText(on ? "*" : ".", e.x, e.y + (on ? 0 : -3));
   });
 
   // Player
