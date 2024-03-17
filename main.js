@@ -6,6 +6,7 @@ import { update_typing } from "./typing.js";
 import { mk_cursor } from "./cursor.js";
 import { mk_camera, update_camera } from "./camera.js";
 import { mk_pickup, init_pickups, pickup_collisions } from "./pickup.js";
+import { update_physics } from "./physics.js";
 
 const renderer = mk_renderer(document, "#board");
 const state = {
@@ -47,6 +48,7 @@ const load_img = () => {
 const update = (state) => {
   update_typing(state);
   update_player(state.player);
+  update_physics(state);
 
   const picked_up = pickup_collisions(
     { x: state.player.x * state.tw, y: state.player.y * state.th },

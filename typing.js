@@ -26,9 +26,10 @@ export const update_typing = (state) => {
     prev_ch,
     up_ch !== " " ? up_ch : null,
     down_ch !== " " ? down_ch : null,
+    "Enter",
   ];
   const downs = checks.map((ch) => ch && keys.isDown(ch));
-  const [isNext, isDel, isPrev, isUp, isDown] = downs;
+  const [isNext, isDel, isPrev, isUp, isDown, isEnter] = downs;
 
   if (isNext) {
     cursor.x += 1;
@@ -50,6 +51,10 @@ export const update_typing = (state) => {
     cursor.y -= 3;
     player.tx = cursor.x;
     player.ty = cursor.y - 1;
+  } else if (isEnter && !player.jumping) {
+    player.acy += -0.2;
+    player.jumping = true;
+    player.jumpStart = player.y;
   }
 
   if (!isDel) {

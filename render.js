@@ -76,7 +76,7 @@ export const render = (renderer, state) => {
   /*drawImage(image,
     sx, sy, sw, sh,
     dx, dy, dw, dh);    */
-  const fr_x = Math.abs(player.vx) < 1 ? 0 : Math.floor(Date.now() / 100) % 3;
+  const fr_x = Math.abs(player.vx) > 0.0 ? Math.floor(Date.now() / 100) % 3 : 0;
   const fr_y = player.vx < 0 ? 1 : 0;
   ctx.drawImage(
     state.imgs.ch,
