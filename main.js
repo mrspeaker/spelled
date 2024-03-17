@@ -50,7 +50,11 @@ const run = (state, renderer) => {
     const dt = t - state.t;
     state.t = t;
     state.dt = dt;
-    update(state);
+    state.ms_acc += dt;
+    while (state.ms_acc >= state.ms) {
+      state.ms_acc -= state.ms;
+      update(state);
+    }
     render(renderer, state);
     requestAnimationFrame(loop);
   };
@@ -65,6 +69,8 @@ const init = async (doc) => {
   const state = {
     t: 0,
     last_t: 0,
+    ms: 1000 / 60,
+    ms_acc: 0,
     dt: 0,
     keys: mk_keys(doc),
     level: mk_level(),

@@ -52,7 +52,7 @@ export const update_typing = (state) => {
     player.tx = cursor.x;
     player.ty = cursor.y - 1;
   } else if (isEnter && !player.jumping) {
-    player.acy += -0.2;
+    player.acy = -0.2;
     player.jumping = true;
     player.jumpStart = player.y;
   }

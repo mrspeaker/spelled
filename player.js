@@ -29,7 +29,7 @@ export const update_player = (p) => {
       p.vy = 0;
     }
   } else {
-    if (p.y > p.jumpStart) {
+    if (p.y > p.jumpStart && p.vy > 0) {
       p.y = p.jumpStart;
       p.jumping = false;
     }
