@@ -34,7 +34,7 @@ export const render = (renderer, state) => {
   ctx.fillStyle = "hsl(20, 50%, 70%)";
   ((Date.now() / 500) | 0) % 2 &&
     ctx.fillText("|", cursor.x * tw - tw / 2.2, cursor.y * th);
-  ctx.fillText("x", player.x * tw, player.y * th);
+  ctx.drawImage(state.imgs.ch, player.x * tw, player.y * th - 5);
 
   ctx.restore();
 

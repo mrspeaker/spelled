@@ -18,6 +18,20 @@ const state = {
   th: 18,
   w: renderer.w,
   h: renderer.h,
+  imgs: null,
+};
+
+const load_img = () => {
+  const to_load = [["ch", "ch.png"]];
+  const imgs = {};
+  return new Promise((res) => {
+    const img = new Image();
+    img.src = "res/img/" + to_load[0][1];
+    img.addEventListener("load", () => {
+      imgs[to_load[0][0]] = img;
+      res(imgs);
+    });
+  });
 };
 
 const update = (state) => {
@@ -32,4 +46,10 @@ const run = () => {
   requestAnimationFrame(run);
 };
 
-run();
+const init = async () => {
+  const imgs = await load_img();
+  state.imgs = imgs;
+  run();
+};
+
+init();
