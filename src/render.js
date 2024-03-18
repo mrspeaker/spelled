@@ -1,9 +1,10 @@
-export const mk_renderer = (doc, selector) => {
+export const mk_renderer = (doc, selector, imgs) => {
     const ctx = doc.querySelector(selector).getContext("2d");
     ctx.textBaseline = "top";
     const w = ctx.canvas.width;
     const h = ctx.canvas.height;
 
+    // Caching vignette mask
     const post_ctx = doc.createElement("canvas").getContext("2d");
     post_ctx.canvas.setAttribute("width", w);
     post_ctx.canvas.setAttribute("height", h);
@@ -22,11 +23,12 @@ export const mk_renderer = (doc, selector) => {
         mask: post_ctx.canvas,
         w,
         h,
+        imgs,
     };
 };
 
 export const render = (renderer, state) => {
-    const { ctx, w, h } = renderer;
+    const { ctx, w, h, imgs } = renderer;
     const { level, tw, th, cursor, player, cur_word, camera, entities } = state;
     ctx.fillStyle = "hsl(140, 50%, 0%)";
     ctx.fillRect(0, 0, w, h);
@@ -41,7 +43,7 @@ export const render = (renderer, state) => {
 
     // Background
     ctx.globalAlpha = 0.7;
-    ctx.drawImage(state.imgs.jim, 0, 0);
+    ctx.drawImage(imgs.jim, 0, 0);
     ctx.globalAlpha = 1.0;
 
     ctx.save();
@@ -88,7 +90,7 @@ export const render = (renderer, state) => {
         Math.abs(player.vx) > 0.0 ? Math.floor(Date.now() / 100) % 3 : 0;
     const fr_y = player.vx < 0 ? 1 : 0;
     ctx.drawImage(
-        state.imgs.ch,
+        imgs.ch,
         9 * fr_x,
         11 * fr_y,
         9,
