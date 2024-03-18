@@ -67,7 +67,7 @@ export const render = (renderer, state) => {
             ctx.fillText(
                 cur_word.word[i - cur_word.start],
                 i * tw,
-                cur_word.y * th
+                cur_word.y * th,
             );
         }
     }
@@ -96,7 +96,7 @@ export const render = (renderer, state) => {
         player.x * tw,
         player.y * th + 8,
         9,
-        11
+        11,
     );
 
     ctx.restore();
