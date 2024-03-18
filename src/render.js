@@ -40,7 +40,7 @@ export const render = (renderer, state) => {
     }
 
     // Background
-    ctx.globalAlpha = 0.5;
+    ctx.globalAlpha = 0.7;
     ctx.drawImage(state.imgs.jim, 0, 0);
     ctx.globalAlpha = 1.0;
 
@@ -54,7 +54,7 @@ export const render = (renderer, state) => {
     const cy2 = Math.min(level.h, (cy + h / th) | 0) + 1;
 
     // Level text
-    ctx.fillStyle = "#68c";
+    ctx.fillStyle = "hsl(200, 70%, 70%)";
     for (let j = cy; j < cy2; j++) {
         for (let i = cx; i < cx2; i++) {
             ctx.fillText(level.chars[j][i], i * tw, j * th);

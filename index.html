@@ -13,13 +13,23 @@
                 color: #888;
                 font-family: dos, monospace;
             }
+            #container {
+                width: 1000px;
+                margin: auto;
+            }
+            #board {
+                border-radius: 25px;
+                border: 1px solid hsl(0, 40%, 20%);
+            }
         </style>
     </head>
     <body>
-        <div>
-            <canvas id="board" width="960" height="540" />
+        <div id="container">
+            <div>
+                <canvas id="board" width="960" height="540" />
+            </div>
+            <div>spelled</div>
         </div>
-        <div>spelled</div>
 
         <script src="src/main.js" type="module"></script>
     </body>
