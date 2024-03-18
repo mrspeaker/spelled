@@ -2,7 +2,12 @@
 ** TODO
 
 ** Ideas
+- Levels? Start super easy, get out... get's harder. Maybe not "levels", but rooms, so there is a progression - very easy to teach mechanics.
+  
+- only need to type ~4 characters then the word autocompletes?... and/or, like a combo: type whole words and get "on fire" and it starts autocompleting, and you zoom faster. Should feel like a typing GOD.
 
+  (remember power-up mode in Sublime/Atom?)
+  
 - later skill: words are related to other nearby words, highlihted and can start typing them to teleport
 - Gain a supply of "forward-word/ backward word/ sentence etc" shortcuts. Emacs/vim binds as powerups.
 
@@ -12,6 +17,8 @@ this is the level
 a    x
 boop of the thing
 ... maybe like, top down and the words are paths, can choose the forks
+
+- mash-mode powerup (just mash any keys to progress), 
 
 *** Dum rando
 - tying rhythm game section.

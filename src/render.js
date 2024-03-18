@@ -29,7 +29,7 @@ export const mk_renderer = (doc, selector, imgs) => {
 
 export const render = (renderer, state) => {
     const { ctx, w, h, imgs } = renderer;
-    const { level, tw, th, cursor, player, cur_word, camera, entities } = state;
+    const { level, tw, th, cursor, player, typing, camera, entities } = state;
     ctx.fillStyle = "hsl(140, 50%, 0%)";
     ctx.fillRect(0, 0, w, h);
     ctx.font = "16px 'dos', monospace";
@@ -63,14 +63,11 @@ export const render = (renderer, state) => {
         }
     }
     // Current word
-    if (cur_word) {
+    const word = typing.fwd;
+    if (word) {
         ctx.fillStyle = "hsl(0, 80%, 70%)";
-        for (let i = cur_word.start; i < cur_word.end; i++) {
-            ctx.fillText(
-                cur_word.word[i - cur_word.start],
-                i * tw,
-                cur_word.y * th,
-            );
+        for (let i = word.start; i < word.end; i++) {
+            ctx.fillText(word.word[i - word.start], i * tw, word.y * th);
         }
     }
 
@@ -108,5 +105,9 @@ export const render = (renderer, state) => {
 
     // UI
     ctx.fillStyle = "hsl(20, 50%, 70%)";
-    ctx.fillText(`${cursor.x} ${cursor.y}, ${state.dt.toFixed(0)}`, 2, 2);
+    ctx.fillText(
+        `${cursor.x} ${cursor.y}, ${state.cur_word?.word ?? "-"}`,
+        2,
+        2,
+    );
 };

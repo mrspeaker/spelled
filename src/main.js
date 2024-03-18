@@ -15,7 +15,7 @@ const update = (state) => {
 
     const picked_up = pickup_collisions(
         { x: state.player.x * state.tw, y: state.player.y * state.th },
-        state.entities
+        state.entities,
     );
     if (picked_up.length) {
         state.flash = 5;

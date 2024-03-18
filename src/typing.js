@@ -1,44 +1,66 @@
-const set_cur_word = (state) => {
-    const { level, cursor } = state;
-    state.cur_word = level.word_at_xy(cursor.x, cursor.y);
+export const mk_typing_state = () => {
+    return {
+        fwd: null,
+        fwd_pos: 0,
+        back: null,
+        back_pos: 0,
+        up: null,
+        up_pos: 0,
+        down: null,
+        down_pos: 0,
+    };
+};
+
+const set_word = (state) => {
+    const { level, cursor, typing } = state;
+    const word = level.word_at_xy(cursor.x, cursor.y);
+    typing.fwd = word;
+    typing.fwd_pos = cursor.x - word.start;
 };
 
 export const update_typing = (state) => {
-    const { level, cursor, keys, tw, player } = state;
+    const { level, cursor, keys, tw, player, typing } = state;
 
-    if (!state.cur_word) {
-        set_cur_word(state);
+    if (!typing.fwd_word) {
+        set_word(state);
     }
 
-    const next_word = level.word_at_xy(cursor.x, cursor.y);
-    const prev_word = level.word_at_xy(next_word.start - 1, cursor.y);
+    const fwd_word = level.word_at_xy(cursor.x, cursor.y);
+    const back_word = level.word_at_xy(fwd_word.start - 1, cursor.y);
     const down_word = level.word_at_xy(cursor.x, cursor.y + 1);
     const up_word = level.word_at_xy(cursor.x, cursor.y - 1);
 
-    const next_ch = (next_word.word + " ")[cursor.x - next_word.start];
-    const prev_ch = (prev_word.word + " ")[0];
+    const ch_num = cursor.x - fwd_word.start;
+    const fwd_ch = (fwd_word.word + " ")[ch_num];
+    const back_ch = (back_word.word + " ")[0];
     const down_ch = (down_word.word + " ")[0];
     const up_ch = (up_word.word + " ")[0];
 
     const checks = [
-        next_ch,
+        fwd_ch,
         "Backspace",
-        prev_ch,
+        back_ch,
         up_ch !== " " ? up_ch : null,
         down_ch !== " " ? down_ch : null,
         "Enter",
     ];
     const downs = checks.map((ch) => ch && keys.isDown(ch));
-    const [isNext, isDel, isPrev, isUp, isDown, isEnter] = downs;
+    const [isFwd, isDel, isBack, isUp, isDown, isEnter] = downs;
 
-    if (isNext) {
+    if (isFwd) {
         cursor.x += 1;
-        if (next_ch === " ") {
+        // Testing: auto advance without space bar
+        if (fwd_ch === " " || cursor.x === fwd_word.end) {
             // Word is "done" - advance player
+            cursor.x += 1;
+            player.tx = cursor.x;
+        } else if (ch_num >= 3) {
+            // Testing - auto advance after 3 characters
+            cursor.x = fwd_word.end + 1;
             player.tx = cursor.x;
         }
-    } else if (isPrev) {
-        cursor.x = prev_word.start;
+    } else if (isBack) {
+        cursor.x = back_word.start;
         player.tx = cursor.x;
     } else if (isDel) {
         cursor.x -= 1;
@@ -58,10 +80,10 @@ export const update_typing = (state) => {
     }
 
     if (!isDel) {
-        set_cur_word(state);
+        set_word(state);
     } else {
         // Dodgy back word
-        state.cur_word = null;
+        state.fwd = null;
     }
 
     // Clear any pressed keys
