@@ -16,6 +16,10 @@ const set_word = (state) => {
     const word = level.word_at_xy(cursor.x, cursor.y);
     typing.fwd = word;
     typing.fwd_pos = cursor.x - word.start;
+
+    typing.back = level.word_at_xy(word.start - 1, cursor.y);
+    typing.down = level.word_at_xy(cursor.x, cursor.y + 1);
+    typing.up = level.word_at_xy(cursor.x, cursor.y - 1);
 };
 
 export const update_typing = (state) => {
@@ -25,16 +29,11 @@ export const update_typing = (state) => {
         set_word(state);
     }
 
-    const fwd_word = level.word_at_xy(cursor.x, cursor.y);
-    const back_word = level.word_at_xy(fwd_word.start - 1, cursor.y);
-    const down_word = level.word_at_xy(cursor.x, cursor.y + 1);
-    const up_word = level.word_at_xy(cursor.x, cursor.y - 1);
-
-    const ch_num = cursor.x - fwd_word.start;
-    const fwd_ch = (fwd_word.word + " ")[ch_num];
-    const back_ch = (back_word.word + " ")[0];
-    const down_ch = (down_word.word + " ")[0];
-    const up_ch = (up_word.word + " ")[0];
+    const ch_num = cursor.x - typing.fwd.start;
+    const fwd_ch = (typing.fwd.word + " ")[ch_num];
+    const back_ch = (typing.back.word + " ")[0];
+    const down_ch = (typing.down.word + " ")[0];
+    const up_ch = (typing.up.word + " ")[0];
 
     const checks = [
         fwd_ch,
@@ -50,17 +49,17 @@ export const update_typing = (state) => {
     if (isFwd) {
         cursor.x += 1;
         // Testing: auto advance without space bar
-        if (fwd_ch === " " || cursor.x === fwd_word.end) {
+        if (fwd_ch === " " || cursor.x === typing.fwd.end) {
             // Word is "done" - advance player
             cursor.x += 1;
             player.tx = cursor.x;
         } else if (ch_num >= 3) {
             // Testing - auto advance after 3 characters
-            cursor.x = fwd_word.end + 1;
+            cursor.x = typing.fwd.end + 1;
             player.tx = cursor.x;
         }
     } else if (isBack) {
-        cursor.x = back_word.start;
+        cursor.x = typing.back.start;
         player.tx = cursor.x;
     } else if (isDel) {
         cursor.x -= 1;
