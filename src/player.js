@@ -1,17 +1,15 @@
-export const mk_player = (x, y) => {
-    return {
-        x,
-        y,
-        tx: x,
-        ty: y,
-        vx: 0,
-        vy: 0,
-        acx: 0,
-        acy: 0,
-        jumping: false,
-        jumpStart: 0,
-    };
-};
+export const mk_player = (x, y) => ({
+    x,
+    y,
+    tx: x,
+    ty: y,
+    vx: 0,
+    vy: 0,
+    acx: 0,
+    acy: 0,
+    jumping: false,
+    jumpStart: 0,
+});
 
 export const update_player = (p) => {
     const dx = p.tx - p.x;

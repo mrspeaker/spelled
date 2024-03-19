@@ -11,8 +11,8 @@ When she was discontented, she fancied herself nervous. The business of her life
                    u                   t                                    o                                          a                       h                                  h                   p
                    p                   o                                    f                                          n                       u                                  i                   o
 it's not    Elizabeth                  ecting that she was herself becoming an object of some interest in the eyes of his friend. Mr. Darcy had at first scarcely allowed her to be pretty: he had looked at her without admiration at the ball; and when they next met, he looked at her only to criticise.
-       u             g                                 y                                  n              o                             a                 f                        h
-       p             o                                 o                                  m              l                             n                 u                        i
+       u             r                                 y                                  n              o                             a                 f                        h
+       p             f                                 i                                  m              l                             n                 u                        i
 beyond the recesses of                            How long has she been such a favourite? and pray when am I to wish you joy? which a pair of fine eyes in the face of a pretty woman can bestow. they repaired to her room on leaving the dining-parlour, and sat with her till summoned to coffee. She was still very poorly,
 
 
@@ -27,7 +27,7 @@ When she was discontented, she fancied herself nervous. The business of her I   
                    p                   o                                    f                                          n                       u                                  i                   o
 it's not    Elizabeth was far from suspecting that she was herself becoming an object of some interest in             his friend. Mr. Darcy had at first scarcely allowed her to be pretty: he had looked at her without admiration at the ball; and when they next met, he looked at her only to criticise.
        u             g                                 y                                  n              o                             a                 f                        h
-       p             u                                 o                                  m              l                             n                 u                        i
+       p             u                                 p                                  m              l                             n                 u                        i
 beyond the recesses of                            How long has she been such a favourite? and pray when am I to                     a pair of fine eyes in the face of a pretty woman can bestow. they repaired to her room on leaving the dining-parlour, and sat with her till summoned to coffee. She was still very poorly,
 
 
@@ -42,7 +42,7 @@ When she was discontented, she fancied herself nervous.         ness of her life
                    p                   o                                    f                                          n                       u                                  i                   o
 it's not    Elizabeth was far from suspecting that she was herself becoming an object of some interest in the eyes of his friend. Mr. Darcy had at first scarcely allowed her to be pretty: he had looked at her without admiration at the ball; and when they next met, he looked at her only to criticise.
        u             g                                 y                                  n              o                             a                 f                        h
-       p             o                                 o                                  m              l                             n                 u                        i
+       p             e                                 a                                  m              l                             n                 u                        i
 beyond the recesses of the I am all astonishment. How long has she been such a favourite? and pray when am I to wish you joy? which a pair of fine eyes in the face of a pretty woman can bestow. they repaired to her room on leaving the dining-parlour, and sat with her till summoned to coffee. She was still very poorly,
                                      o                                   o
                                      g                                   p
@@ -57,7 +57,7 @@ When she was discontented, she fancied herself.         The business of her life
                    p                   o                                    f                                          n                       u          u                       i                   o
 it's not    Elizabeth was far from suspecting          was herself becoming an object of some interest in the eyes of his friend. Mr. Darcy had at first scarcely allowed her to be pretty: he had looked at her without admiration at the ball; and when they next met, he looked at her only to criticise. boop boop.
        u             g                                 y                                  n              o                             a                 f                        h
-       p             o                                 o                                  m              l                             n                 u                        i
+       p             e                                 f                                  m              l                             n                 u                        i
 beyond the recesses of the I am all astonishment. How long has she been such a favourite? and pray when am I to wish you joy? which a pair              in the face of a pretty woman can bestow.                                          dining-parlour, and sat with her till summoned to coffee. She was still very poorly,
                                       d                                                                                                                                            h
                                       g                                                                                                                                            i
@@ -72,7 +72,7 @@ When she was discontented, she fancied herself nervous. The business of her life
                    p                   o                                    f                                          n                       u                                  i                   o
 it's not    Elizabeth was far from suspecting that she was herself becoming an object of some interest in the eyes of his friend. Mr. Darcy had at first scarcely allowed her to be pretty: he had looked at her without admiration at the ball; and when they next met, he looked at her only to criticise.
        u             g                                 y                                  n              o                             a                 f                        h
-       p             o                                 o                                  m              l                             n                 u                        i
+       p             e                                 e                                  m              l                             n                 u                        i
 beyond the recesses of the I am all astonishment. How long has she been such a favourite? and pray when am I to wish you joy? which a pair of fine eyes in the face of a pretty woman can bestow. they repaired to her room on leaving the dining-parlour, and sat with her till summoned to coffee. She was still very poorly,
                                     g                                   o
                                     a                                   p
@@ -87,7 +87,7 @@ When she was discontented, she fancied herself nervous. The business of her life
                    p                   o                                    f                                          n                       u                                  i                   o
 it's not    Elizabeth was far from suspecting that she was herself becoming an object of some interest in the eyes of his friend. Mr. Darcy had at first scarcely allowed her to be pretty: he had looked at her without admiration at the ball; and when they next met, he looked at her only to criticise.
        u             g                                 y                                  n              o                             a                 f                        h
-       p             o                                 o                                  m              l                             n                 u                        i
+       p             e                                 e                                  m              l                             n                 u                        i
 beyond the recesses of the I am all astonishment. How long has she been such a favourite? and pray when am I to wish you joy? which a pair of fine eyes in the face of a pretty woman can bestow. they repaired to her room on leaving the dining-parlour, and sat with her till summoned to coffee. She was still very poorly,
 
 `;

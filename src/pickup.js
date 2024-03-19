@@ -1,8 +1,6 @@
 import { find_free_ground } from "./level.js";
 
-export const mk_pickup = (x, y) => {
-    return { x, y };
-};
+export const mk_pickup = (x, y) => ({ x, y });
 
 export const init_pickups = (state) => {
     const { entities, level, tw, th } = state;
@@ -17,8 +15,7 @@ export const init_pickups = (state) => {
 const dist = (e1, e2) => {
     const dx = e1.x - e2.x;
     const dy = e1.y - e2.y;
-    const d = Math.sqrt(dx * dx + dy * dy);
-    return d;
+    return Math.sqrt(dx * dx + dy * dy);
 };
 
 export const pickup_collisions = (e, pickups) =>

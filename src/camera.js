@@ -1,6 +1,9 @@
-export const mk_camera = () => {
-    return { x: 0, y: 0, tx: 0, ty: 0 };
-};
+export const mk_camera = () => ({
+    x: 0,
+    y: 0,
+    tx: 0,
+    ty: 0,
+});
 
 export const update_camera = (camera, state) => {
     const { player, w, h, tw, th } = state;

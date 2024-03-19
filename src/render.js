@@ -91,8 +91,8 @@ export const render = (renderer, state) => {
     }
 
     // Cursor
-    //ctx.fillStyle = colors[8];
-    //blink(500) && ctx.fillText("|", cursor.x * tw - tw / 2.2, cursor.y * th);
+    // ctx.fillStyle = colors[8];
+    // blink(500) && ctx.fillText("|", cursor.x * tw - tw / 2.2, cursor.y * th);
 
     // Pickups
     ctx.fillStyle = colors[10];
