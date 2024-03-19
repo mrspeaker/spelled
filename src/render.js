@@ -110,7 +110,7 @@ export const render = (renderer, state) => {
         9,
         11,
         player.x * tw,
-        player.y * th + 8,
+        player.y * th + 6,
         9,
         11
     );
