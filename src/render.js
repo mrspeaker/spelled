@@ -41,6 +41,7 @@ export const render = (renderer, state) => {
         camera,
         entities,
         doors,
+        particles,
         t,
     } = state;
     ctx.fillStyle = colors[15];
@@ -60,6 +61,14 @@ export const render = (renderer, state) => {
     ctx.save();
     ctx.scale(camera.zoom, camera.zoom);
     ctx.translate(-Math.round(camera.x) + zhw, -Math.round(camera.y) + zhh);
+
+    // Particles
+    if (particles.length) {
+        ctx.fillStyle = colors[10];
+        particles.forEach((p) => {
+            ctx.fillRect(p.x, p.y, p.size, p.size);
+        });
+    }
 
     // Camera bounds (TODO: removed culling, 'cause zoom)
     const cx = 0; // Math.max(0, (camera.x / tw) | 0);

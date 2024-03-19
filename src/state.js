@@ -20,6 +20,7 @@ export const mk_state = (w, h, keys, lvl) => ({
     typing: mk_typing_state(),
     entities: [],
     doors: [],
+    particles: [],
     tw: 9,
     th: 17,
     w,

@@ -28,6 +28,8 @@ export const update_typing = (state) => {
     }
     const { fwd, back, up, down } = typing;
 
+    let res = "";
+
     const ch_num = cursor.x - fwd.start;
     const fwd_ch = (fwd.word + " ")[ch_num];
     const back_ch = (back.word + " ")[0];
@@ -47,6 +49,7 @@ export const update_typing = (state) => {
 
     if (isFwd) {
         cursor.x += 1;
+        res = "fwd";
         // Testing: auto advance without space bar
         if (fwd_ch === " " || cursor.x === fwd.end) {
             // Word is "done" - advance player
@@ -86,4 +89,6 @@ export const update_typing = (state) => {
 
     // Clear any pressed keys
     downs.forEach((isDown, i) => isDown && keys.clear(checks[i]));
+
+    return res;
 };

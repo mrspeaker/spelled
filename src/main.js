@@ -5,14 +5,22 @@ import { update_typing } from "./typing.js";
 import { update_camera } from "./camera.js";
 import { mk_pickup, init_pickups, pickup_collisions } from "./pickup.js";
 import { update_physics } from "./physics.js";
+import { mk_particles, update_particles } from "./particles.js";
 import { load_level } from "./level.js";
 import { mk_state } from "./state.js";
 import { assets_load } from "./assets.js";
 
 const update = (state) => {
-    update_typing(state);
+    const oldx = state.cursor.x;
+    const res = update_typing(state);
+    if (res === "fwd") {
+        state.particles.push(
+            ...mk_particles(oldx * state.tw, state.cursor.y * state.th),
+        );
+    }
     update_player(state.player);
     update_physics(state);
+    update_particles(state.particles);
 
     const picked_up = pickup_collisions(
         { x: state.player.x * state.tw, y: state.player.y * state.th },
