@@ -1,3 +1,5 @@
+import { colors } from "./colors.js";
+
 export const mk_renderer = (doc, selector, imgs) => {
     const ctx = doc.querySelector(selector).getContext("2d");
     ctx.textBaseline = "top";
@@ -12,7 +14,7 @@ export const mk_renderer = (doc, selector, imgs) => {
     const h2 = h / 2;
     var g = ctx.createRadialGradient(w2, h2, 0, w2, h2, ctx.canvas.height);
     g.addColorStop(0, "rgba(0,0,0,0)");
-    g.addColorStop(0.8, "rgb(0,0,0)");
+    g.addColorStop(1, "rgb(0,0,0)");
     post_ctx.fillStyle = g;
     post_ctx.rect(0, 0, w, h);
     post_ctx.fill();
@@ -30,21 +32,21 @@ export const mk_renderer = (doc, selector, imgs) => {
 export const render = (renderer, state) => {
     const { ctx, w, h, imgs } = renderer;
     const { level, tw, th, cursor, player, typing, camera, entities } = state;
-    ctx.fillStyle = "hsl(140, 50%, 0%)";
+    ctx.fillStyle = colors[15];
     ctx.fillRect(0, 0, w, h);
     ctx.font = "16px 'dos', monospace";
 
     if (state.flash > 0) {
         state.flash--;
-        ctx.fillStyle = "#ccc";
+        ctx.fillStyle = colors[0];
         ctx.fillRect(0, 0, w, h);
         return;
     }
 
     // Background
-    ctx.globalAlpha = 0.7;
-    ctx.drawImage(imgs.jim, 0, 0);
-    ctx.globalAlpha = 1.0;
+    //    ctx.globalAlpha = 0.7;
+    //    ctx.drawImage(imgs.jim, 0, 0);
+    //    ctx.globalAlpha = 1.0;
 
     ctx.save();
     ctx.translate(-Math.round(camera.x), -Math.round(camera.y));
@@ -56,27 +58,41 @@ export const render = (renderer, state) => {
     const cy2 = Math.min(level.h, (cy + h / th) | 0) + 1;
 
     // Level text
-    ctx.fillStyle = "hsl(200, 70%, 70%)";
+    ctx.fillStyle = colors[1];
     for (let j = cy; j < cy2; j++) {
         for (let i = cx; i < cx2; i++) {
             ctx.fillText(level.chars[j][i], i * tw, j * th);
         }
     }
-    // Current word
-    const word = typing.fwd;
-    if (word) {
-        ctx.fillStyle = "hsl(0, 80%, 70%)";
-        for (let i = word.start; i < word.end; i++) {
-            ctx.fillText(word.word[i - word.start], i * tw, word.y * th);
+
+    // Target words
+    let cur = { ch: "", x: -1, y: -1 };
+    [typing.fwd, typing.back, typing.up, typing.down].forEach((w, wi) => {
+        if (!w) return;
+        ctx.fillStyle = colors[wi ? 11 : 8];
+        for (let i = w.start; i < w.end; i++) {
+            ctx.fillText(w.word[i - w.start], i * tw, w.y * th);
+            if (wi === 0 && i === cursor.x) {
+                cur.ch = w.word[i - w.start];
+                cur.x = i;
+                cur.y = w.y;
+            }
         }
+    });
+
+    // Highlight current letter
+    if (cur.ch) {
+        ctx.fillStyle = colors[9];
+        ctx.fillText(cur.ch, cur.x * tw, cur.y * th);
     }
 
     // Cursor
-    ctx.fillStyle = "hsl(20, 50%, 70%)";
+    ctx.fillStyle = colors[8];
     ((Date.now() / 500) | 0) % 2 &&
         ctx.fillText("|", cursor.x * tw - tw / 2.2, cursor.y * th);
 
-    ctx.fillStyle = "yellow";
+    // Pickups
+    ctx.fillStyle = colors[10];
     entities.forEach((e, i) => {
         const on = Math.floor((Date.now() + i * 200) / 800) % 2 === 0;
         ctx.fillText(on ? "*" : ".", e.x, e.y + (on ? 0 : -3));
@@ -95,19 +111,19 @@ export const render = (renderer, state) => {
         player.x * tw,
         player.y * th + 8,
         9,
-        11,
+        11
     );
 
     ctx.restore();
 
-    // Edge mask
+    // Vignette mask
     ctx.drawImage(renderer.mask, 0, 0);
 
     // UI
-    ctx.fillStyle = "hsl(20, 50%, 70%)";
+    ctx.fillStyle = colors[13];
     ctx.fillText(
         `${cursor.x} ${cursor.y}, ${state.cur_word?.word ?? "-"}`,
         2,
-        2,
+        2
     );
 };
