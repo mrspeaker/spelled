@@ -63,6 +63,10 @@ export const update_typing = (state) => {
         player.tx = cursor.x;
     } else if (isDel) {
         cursor.x -= 1;
+        // See if we've gone back a word
+        if (level.ch_at_xy(cursor.x, cursor.y) === " ") {
+            cursor.x -= 1;
+        }
         player.tx = cursor.x;
     } else if (isDown) {
         cursor.y += 3;
@@ -78,12 +82,7 @@ export const update_typing = (state) => {
         player.jumpStart = player.y;
     }
 
-    if (!isDel) {
-        set_word(state);
-    } else {
-        // Dodgy back word
-        state.fwd = null;
-    }
+    set_word(state);
 
     // Clear any pressed keys
     downs.forEach((isDown, i) => isDown && keys.clear(checks[i]));

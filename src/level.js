@@ -4,7 +4,7 @@ export const mk_level = () => {
     const raw = txt.split("\n").slice(1).slice(0, -1);
     const longest = raw.reduce(
         (ac, el) => (el.length > ac ? el.length : ac),
-        0,
+        0
     );
     const lines = raw.map((l) => l.padEnd(longest) + "x");
     const chars = lines.map((l) => l.padEnd(longest).split(""));
@@ -24,7 +24,7 @@ export const mk_level = () => {
                 });
                 return { words, i: start + len + 1 };
             },
-            { words: [], i: 0 },
+            { words: [], i: 0 }
         );
     });
 
@@ -37,7 +37,7 @@ export const mk_level = () => {
         l.split(" ").reduce((ac, el) => {
             ac.push(el);
             return ac;
-        }, []),
+        }, [])
     );
 
     const word_at_xy = (x, y) => {
@@ -58,12 +58,19 @@ export const mk_level = () => {
         };
     };
 
+    const ch_at_xy = (x, y) => {
+        const token = get_by_index(x, y);
+        const char_idx = x - token.start;
+        return token.word[char_idx] || " ";
+    };
+
     return {
         w: longest,
         h: lines.length,
         chars,
         words,
         word_at_xy,
+        ch_at_xy,
     };
 };
 
