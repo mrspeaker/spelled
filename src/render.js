@@ -31,7 +31,8 @@ export const mk_renderer = (doc, selector, imgs) => {
 
 export const render = (renderer, state) => {
     const { ctx, w, h, imgs } = renderer;
-    const { level, tw, th, cursor, player, typing, camera, entities } = state;
+    const { level, tw, th, cursor, player, typing, camera, entities, t } =
+        state;
     ctx.fillStyle = colors[15];
     ctx.fillRect(0, 0, w, h);
     ctx.font = "16px 'dos', monospace";
@@ -80,27 +81,27 @@ export const render = (renderer, state) => {
         }
     });
 
+    const blink = (ms, off = 0) => Math.floor((t + off) / ms) % 2 === 0;
+
     // Highlight current letter
-    if (cur.ch) {
+    if (blink(50) && cur.ch) {
         ctx.fillStyle = colors[9];
         ctx.fillText(cur.ch, cur.x * tw, cur.y * th);
     }
 
     // Cursor
-    ctx.fillStyle = colors[8];
-    ((Date.now() / 500) | 0) % 2 &&
-        ctx.fillText("|", cursor.x * tw - tw / 2.2, cursor.y * th);
+    //ctx.fillStyle = colors[8];
+    //blink(500) && ctx.fillText("|", cursor.x * tw - tw / 2.2, cursor.y * th);
 
     // Pickups
     ctx.fillStyle = colors[10];
     entities.forEach((e, i) => {
-        const on = Math.floor((Date.now() + i * 200) / 800) % 2 === 0;
+        const on = blink(800, i * 200);
         ctx.fillText(on ? "*" : ".", e.x, e.y + (on ? 0 : -3));
     });
 
     // Player
-    const fr_x =
-        Math.abs(player.vx) > 0.0 ? Math.floor(Date.now() / 100) % 3 : 0;
+    const fr_x = Math.abs(player.vx) > 0.0 ? Math.floor(t / 100) % 3 : 0;
     const fr_y = player.vx < 0 ? 1 : 0;
     ctx.drawImage(
         imgs.ch,
@@ -121,9 +122,5 @@ export const render = (renderer, state) => {
 
     // UI
     ctx.fillStyle = colors[13];
-    ctx.fillText(
-        `${cursor.x} ${cursor.y}, ${state.cur_word?.word ?? "-"}`,
-        2,
-        2
-    );
+    ctx.fillText(`${cursor.x} ${cursor.y},${typing.fwd?.word ?? "-"}`, 2, 2);
 };
