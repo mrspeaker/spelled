@@ -1,13 +1,36 @@
 import { txt } from "./level_txt.js";
 
-export const mk_level = () => {
-    const raw = txt.split("\n").slice(1).slice(0, -1);
+export const load_level = (name) => {
+    return fetch("res/data/" + name).then((r) => r.text());
+};
+
+export const mk_level = (txt) => {
+    const raw = txt.split("\n");
     const longest = raw.reduce(
         (ac, el) => (el.length > ac ? el.length : ac),
         0
     );
-    const lines = raw.map((l) => l.padEnd(longest) + "x");
-    const chars = lines.map((l) => l.padEnd(longest).split(""));
+    const lines = raw.map((l) => l.padEnd(longest) + "▓");
+
+    const spawns = {
+        player: [0, 0],
+        pickups: [],
+    };
+
+    const chars = lines.map((l, y) =>
+        l.split("").map((ch, x) => {
+            if (ch === "☺") {
+                spawns.player[0] = x;
+                spawns.player[1] = y;
+                return " ";
+            }
+            if (ch === "♦") {
+                spawns.pickups.push([x, y]);
+                return " ";
+            }
+            return ch;
+        })
+    );
 
     const indexes = lines.map((l) => {
         const words = l.split(" ");
@@ -71,6 +94,7 @@ export const mk_level = () => {
         words,
         word_at_xy,
         ch_at_xy,
+        spawns,
     };
 };
 

@@ -4,8 +4,8 @@ export const mk_pickup = (x, y) => ({ x, y });
 
 export const init_pickups = (state) => {
     const { entities, level, tw, th } = state;
-
-    for (let i = 0; i < 150; i++) {
+    const num = level.h * level.w * 0.01;
+    for (let i = 0; i < num; i++) {
         const { x, y } = find_free_ground(level);
         const p = mk_pickup(x * tw, y * th);
         entities.push(p);

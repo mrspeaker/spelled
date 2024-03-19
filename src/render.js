@@ -55,8 +55,8 @@ export const render = (renderer, state) => {
     // Camera bounds
     const cx = Math.max(0, (camera.x / tw) | 0);
     const cy = Math.max(0, (camera.y / th) | 0);
-    const cx2 = Math.min(level.w, (cx + w / tw) | 0) + 1;
-    const cy2 = Math.min(level.h, (cy + h / th) | 0) + 1;
+    const cx2 = Math.min(level.w - 1, (cx + w / tw) | 0) + 1;
+    const cy2 = Math.min(level.h - 1, (cy + h / th) | 0) + 1;
 
     // Level text
     ctx.fillStyle = colors[1];
