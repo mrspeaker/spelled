@@ -14,13 +14,12 @@ export const mk_player = (x, y) => ({
 export const update_player = (p) => {
     const dx = p.tx - p.x;
     const dy = p.ty - p.y;
+    if (Math.abs(dx) > 0.1) {
+        p.acx = dx * 0.0008;
+    } else {
+        // p.vx = 0;
+    }
     if (!p.jumping) {
-        if (Math.abs(dx) > 0.1) {
-            p.vx = Math.sign(dx) * 0.1;
-        } else {
-            p.vx = 0;
-        }
-
         if (Math.abs(dy) > 0.1) {
             p.vy = Math.sign(dy) * 0.1;
         } else {

@@ -10,14 +10,14 @@ export const mk_typing_state = () => ({
 });
 
 const set_word = (state) => {
-    const { level, cursor, typing } = state;
+    const { level, cursor, typing, player } = state;
     const word = level.word_at_xy(cursor.x, cursor.y);
     typing.fwd = word;
     typing.fwd_pos = cursor.x - word.start;
 
     typing.back = level.word_at_xy(word.start - 1, cursor.y);
-    typing.down = level.word_at_xy(cursor.x, cursor.y + 1);
-    typing.up = level.word_at_xy(cursor.x, cursor.y - 1);
+    typing.down = level.word_at_xy(player.x, cursor.y + 1);
+    typing.up = level.word_at_xy(player.x, cursor.y - 1);
 };
 
 export const update_typing = (state) => {
@@ -80,6 +80,7 @@ export const update_typing = (state) => {
         player.jumping = true;
         player.jumpStart = player.y;
     }
+    player.tx = cursor.x;
 
     set_word(state);
 

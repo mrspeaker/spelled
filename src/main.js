@@ -16,7 +16,7 @@ const update = (state) => {
 
     const picked_up = pickup_collisions(
         { x: state.player.x * state.tw, y: state.player.y * state.th },
-        state.entities
+        state.entities,
     );
     if (picked_up.length) {
         state.flash = 5;
@@ -50,14 +50,18 @@ const init = async (doc) => {
     const state = mk_state(w, h, keys, lvl);
 
     const { player, cursor, level, tw, th } = state;
-    player.x = level.spawns.player[0];
-    player.y = level.spawns.player[1];
+    const { spawns } = level;
+    player.x = spawns.player[0];
+    player.y = spawns.player[1];
     player.tx = player.x;
     player.ty = player.y;
     cursor.x = player.x;
     cursor.y = player.y + 1;
-    level.spawns.pickups.forEach((p) => {
+    spawns.pickups.forEach((p) => {
         state.entities.push(mk_pickup(p[0] * tw, p[1] * th));
+    });
+    spawns.doors.forEach((p) => {
+        state.doors.push(mk_pickup(p.x * tw, p.y * th));
     });
 
     run(state, renderer);

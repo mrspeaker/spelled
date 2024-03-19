@@ -19,6 +19,7 @@ export const mk_state = (w, h, keys, lvl) => ({
     cursor: mk_cursor(10, 5),
     typing: mk_typing_state(),
     entities: [],
+    doors: [],
     tw: 9,
     th: 17,
     w,

@@ -14,6 +14,7 @@ export const mk_level = (txt) => {
     const spawns = {
         player: [0, 0],
         pickups: [],
+        doors: [],
     };
 
     const chars = pre_lines.map((l, y) =>
@@ -27,8 +28,12 @@ export const mk_level = (txt) => {
                 spawns.pickups.push([x, y]);
                 return " ";
             }
+            if (ch === "╬") {
+                spawns.doors.push({ x, y });
+                return " ";
+            }
             return ch;
-        })
+        }),
     );
     const post_lines = chars.map((l) => l.join(""));
 
@@ -47,7 +52,7 @@ export const mk_level = (txt) => {
                 });
                 return { words, i: start + len + 1 };
             },
-            { words: [], i: 0 }
+            { words: [], i: 0 },
         );
     });
 

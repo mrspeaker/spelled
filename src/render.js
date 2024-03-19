@@ -31,8 +31,18 @@ export const mk_renderer = (doc, selector, imgs) => {
 
 export const render = (renderer, state) => {
     const { ctx, w, h, imgs } = renderer;
-    const { level, tw, th, cursor, player, typing, camera, entities, t } =
-        state;
+    const {
+        level,
+        tw,
+        th,
+        cursor,
+        player,
+        typing,
+        camera,
+        entities,
+        doors,
+        t,
+    } = state;
     ctx.fillStyle = colors[15];
     ctx.fillRect(0, 0, w, h);
     ctx.font = "16px 'dos', monospace";
@@ -96,8 +106,14 @@ export const render = (renderer, state) => {
         ctx.fillText(on ? "*" : ".", e.x, e.y + (on ? 0 : -3));
     });
 
+    // Doors
+    ctx.fillStyle = colors[13];
+    doors.forEach((e, i) => {
+        ctx.fillText("╬", e.x, e.y);
+    });
+
     // Player
-    const fr_x = Math.abs(player.vx) > 0.0 ? Math.floor(t / 100) % 3 : 0;
+    const fr_x = Math.abs(player.vx) > 0.002 ? Math.floor(t / 100) % 3 : 0;
     const fr_y = player.vx < 0 ? 1 : 0;
     ctx.drawImage(
         imgs.ch,
@@ -108,7 +124,7 @@ export const render = (renderer, state) => {
         player.x * tw,
         player.y * th + 6,
         9,
-        11
+        11,
     );
 
     ctx.restore();
