@@ -20,15 +20,31 @@
             #board {
                 border-radius: 8px;
                 border: 1px solid #40231e;
+                image-rendering: pixelated;
+                image-rendering: -moz-crisp-edges;
+                image-rendering: crisp-edges;
+            }
+            a {
+                color: #2b454f;
             }
         </style>
+        <script>
+            const fs = () => {
+                const board = document.querySelector("#board");
+                if (!document.fullscreenElement) {
+                    board.requestFullscreen();
+                } else if (document.exitFullscreen) {
+                    document.exitFullscreen();
+                }
+            };
+        </script>
     </head>
     <body>
         <div id="container">
             <div>
                 <canvas id="board" width="960" height="540" />
             </div>
-            <div>spelled</div>
+            <div>spelled. <a href="#" onclick="fs()">fullscreen</a>.</div>
         </div>
 
         <script src="src/main.js" type="module"></script>

@@ -72,6 +72,7 @@ export const render = (renderer, state) => {
         if (!w) return;
         ctx.fillStyle = colors[wi ? 11 : 8];
         for (let i = w.start; i < w.end; i++) {
+            ctx.fillStyle = colors[wi ? 11 : i - w.start > 3 ? 1 : 8];
             ctx.fillText(w.word[i - w.start], i * tw, w.y * th);
             if (wi === 0 && i === cursor.x) {
                 cur.ch = w.word[i - w.start];
