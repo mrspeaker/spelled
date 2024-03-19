@@ -44,19 +44,18 @@ export const render = (renderer, state) => {
         return;
     }
 
-    // Background
-    //    ctx.globalAlpha = 0.7;
-    //    ctx.drawImage(imgs.jim, 0, 0);
-    //    ctx.globalAlpha = 1.0;
+    const zhw = w / 2 / camera.zoom;
+    const zhh = h / 2 / camera.zoom;
 
     ctx.save();
-    ctx.translate(-Math.round(camera.x), -Math.round(camera.y));
+    ctx.scale(camera.zoom, camera.zoom);
+    ctx.translate(-Math.round(camera.x) + zhw, -Math.round(camera.y) + zhh);
 
-    // Camera bounds
-    const cx = Math.max(0, (camera.x / tw) | 0);
-    const cy = Math.max(0, (camera.y / th) | 0);
-    const cx2 = Math.min(level.w - 1, (cx + w / tw) | 0) + 1;
-    const cy2 = Math.min(level.h - 1, (cy + h / th) | 0) + 1;
+    // Camera bounds (TODO: removed culling, 'cause zoom)
+    const cx = 0; // Math.max(0, (camera.x / tw) | 0);
+    const cy = 0; // Math.max(0, (camera.y / th) | 0);
+    const cx2 = level.w - 1; //Math.min(level.w - 1, (cx + w / tw) | 0) + 1;
+    const cy2 = level.h; //Math.min(level.h - 1, (cy + h / th) | 0) + 1;
 
     // Level text
     ctx.fillStyle = colors[1];
@@ -72,7 +71,7 @@ export const render = (renderer, state) => {
         if (!w) return;
         ctx.fillStyle = colors[wi ? 11 : 8];
         for (let i = w.start; i < w.end; i++) {
-            ctx.fillStyle = colors[wi ? 11 : i - w.start > 3 ? 1 : 8];
+            ctx.fillStyle = colors[wi ? 8 : i - w.start > 3 ? 1 : 11];
             ctx.fillText(w.word[i - w.start], i * tw, w.y * th);
             if (wi === 0 && i === cursor.x) {
                 cur.ch = w.word[i - w.start];
@@ -85,14 +84,10 @@ export const render = (renderer, state) => {
     const blink = (ms, off = 0) => Math.floor((t + off) / ms) % 2 === 0;
 
     // Highlight current letter
-    if (blink(50) && cur.ch) {
-        ctx.fillStyle = colors[9];
+    if (blink(100) && cur.ch) {
+        ctx.fillStyle = colors[13];
         ctx.fillText(cur.ch, cur.x * tw, cur.y * th);
     }
-
-    // Cursor
-    // ctx.fillStyle = colors[8];
-    // blink(500) && ctx.fillText("|", cursor.x * tw - tw / 2.2, cursor.y * th);
 
     // Pickups
     ctx.fillStyle = colors[10];

@@ -6,18 +6,17 @@ export const load_level = (name) => {
 
 export const mk_level = (txt) => {
     const raw = txt.split("\n");
-    const longest = raw.reduce(
-        (ac, el) => (el.length > ac ? el.length : ac),
-        0
-    );
-    const lines = raw.map((l) => l.padEnd(longest) + "▓");
+    const h = raw.length;
+    const w = raw.reduce((ac, el) => (el.length > ac ? el.length : ac), 0);
+
+    const pre_lines = raw.map((l) => l.padEnd(w) + "▓");
 
     const spawns = {
         player: [0, 0],
         pickups: [],
     };
 
-    const chars = lines.map((l, y) =>
+    const chars = pre_lines.map((l, y) =>
         l.split("").map((ch, x) => {
             if (ch === "☺") {
                 spawns.player[0] = x;
@@ -31,8 +30,9 @@ export const mk_level = (txt) => {
             return ch;
         })
     );
+    const post_lines = chars.map((l) => l.join(""));
 
-    const indexes = lines.map((l) => {
+    const indexes = post_lines.map((l) => {
         const words = l.split(" ");
         return words.reduce(
             (ac, el) => {
@@ -55,13 +55,6 @@ export const mk_level = (txt) => {
         const word = indexes[y].words.find(({ end }) => end >= x);
         return word;
     };
-
-    const words = lines.map((l) =>
-        l.split(" ").reduce((ac, el) => {
-            ac.push(el);
-            return ac;
-        }, [])
-    );
 
     const word_at_xy = (x, y) => {
         const token = get_by_index(x, y);
@@ -88,10 +81,9 @@ export const mk_level = (txt) => {
     };
 
     return {
-        w: longest,
-        h: lines.length,
+        w,
+        h,
         chars,
-        words,
         word_at_xy,
         ch_at_xy,
         spawns,
