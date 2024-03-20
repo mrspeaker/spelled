@@ -1,5 +1,3 @@
-import { txt } from "./level_txt.js";
-
 export const load_level = (name) => {
     return fetch("res/data/" + name).then((r) => r.text());
 };
@@ -33,7 +31,7 @@ export const mk_level = (txt) => {
                 return " ";
             }
             return ch;
-        }),
+        })
     );
     const post_lines = chars.map((l) => l.join(""));
 
@@ -52,7 +50,7 @@ export const mk_level = (txt) => {
                 });
                 return { words, i: start + len + 1 };
             },
-            { words: [], i: 0 },
+            { words: [], i: 0 }
         );
     });
 

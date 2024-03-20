@@ -15,7 +15,7 @@ const update = (state) => {
     const res = update_typing(state);
     if (res === "fwd") {
         state.particles.push(
-            ...mk_particles(oldx * state.tw, state.cursor.y * state.th + 5),
+            ...mk_particles(oldx * state.tw, state.cursor.y * state.th + 5)
         );
     }
     update_player(state.player);
@@ -24,7 +24,7 @@ const update = (state) => {
 
     const picked_up = pickup_collisions(
         { x: state.player.x * state.tw, y: state.player.y * state.th },
-        state.entities,
+        state.entities
     );
     if (picked_up.length) {
         state.flash = 5;

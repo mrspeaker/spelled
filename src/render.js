@@ -88,9 +88,8 @@ export const render = (renderer, state) => {
     let cur = { ch: "", x: -1, y: -1 };
     [typing.fwd, typing.back, typing.up, typing.down].forEach((w, wi) => {
         if (!w) return;
-        ctx.fillStyle = colors[wi ? 11 : 8];
+        ctx.fillStyle = colors[wi ? 8 : 11];
         for (let i = w.start; i < w.end; i++) {
-            ctx.fillStyle = colors[wi ? 8 : i - w.start > 3 ? 1 : 11];
             ctx.fillText(w.word[i - w.start], i * tw, w.y * th);
             if (wi === 0 && i === cursor.x) {
                 cur.ch = w.word[i - w.start];
@@ -133,7 +132,7 @@ export const render = (renderer, state) => {
         player.x * tw,
         player.y * th + 6,
         9,
-        11,
+        11
     );
 
     ctx.restore();
