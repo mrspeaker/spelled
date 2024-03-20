@@ -10,16 +10,12 @@ const set_word = (state) => {
     const word = level.word_at_xy(cursor.x, cursor.y);
     typing.fwd = word;
     typing.back = level.word_at_xy(word.start - 1, cursor.y);
-    // TODO: handle starting values better
-    if (typing.back.start >= typing.fwd.start) {
-        typing.back = null;
-    }
     typing.down = level.word_at_xy(cursor.x, cursor.y + 1);
     typing.up = level.word_at_xy(cursor.x, cursor.y - 1);
 };
 
-export const update_typing = (state) => {
-    const { level, cursor, keys, typing } = state;
+export const update_typing = (state, keys) => {
+    const { level, cursor, typing } = state;
     // Should only be null on level load. Move this to init
     if (!typing.fwd) {
         set_word(state);
@@ -31,17 +27,14 @@ export const update_typing = (state) => {
     const ch_num = cursor.x - fwd.start;
     const fwd_ch = (fwd.word + " ")[ch_num];
     const back_ch = back ? (back.word + " ")[0] : "";
-    const down_ch = (down.word + " ")[0];
-    const up_ch = (up.word + " ")[0];
+    const down_ch = down?.word[0];
+    const up_ch = up?.word[0];
 
-    const checks = [
-        fwd_ch,
-        "Backspace",
-        back_ch,
-        up_ch !== " " ? up_ch : null,
-        down_ch !== " " ? down_ch : null,
-    ];
+    const checks = [fwd_ch, "Backspace", back_ch, up_ch, down_ch];
     const downs = checks.map((ch) => ch && keys.isDown(ch));
+    if (!downs.some((d) => !!d)) {
+        return res;
+    }
     const [isFwd, isDel, isBack, isUp, isDown] = downs;
 
     if (isFwd) {
@@ -50,7 +43,11 @@ export const update_typing = (state) => {
         // Testing: auto advance without space bar
         if (fwd_ch === " " || cursor.x === fwd.end) {
             // Word is "done" - advance over space character
-            cursor.x += 1;
+            if (level.word_at_xy(cursor.x + 1, cursor.y)) {
+                cursor.x += 1; // there is a next word
+            } else {
+                cursor.x -= 1; // at platform edge, go back
+            }
         }
     } else if (isBack) {
         cursor.x = back.start;
@@ -61,8 +58,12 @@ export const update_typing = (state) => {
     } else if (isDel) {
         cursor.x -= 1;
         // See if we've gone back a word
-        if (level.ch_at_xy(cursor.x, cursor.y) === " ") {
-            cursor.x -= 1;
+        if (cursor.x < fwd.start) {
+            if (level.word_at_xy(cursor.x - 1, cursor.y)) {
+                cursor.x -= 1; // go back over space
+            } else {
+                cursor.x += 1; // at platform edge, move fwd
+            }
         }
     }
 

@@ -40,7 +40,7 @@ export const render = (renderer, state) => {
         typing,
         camera,
         entities,
-        doors,
+        triggers,
         particles,
         t,
     } = state;
@@ -82,7 +82,7 @@ export const render = (renderer, state) => {
     for (let j = cy; j < cy2; j++) {
         for (let i = cx; i < cx2; i++) {
             const ch = level.chars[j][i];
-            if (ch === "@") continue;
+            //if (ch === "@") continue;
             if (ch === "[") {
                 ctx.fillStyle = colors[7];
                 open = true;
@@ -161,10 +161,10 @@ export const render = (renderer, state) => {
         ctx.fillText(on ? "*" : ".", e.x, e.y + (on ? 0 : -3));
     });
 
-    // Doors
+    // Triggers
     ctx.fillStyle = colors[13];
-    doors.forEach((e, i) => {
-        ctx.fillText("╬", e.x, e.y);
+    triggers.forEach((t, i) => {
+        ctx.fillText("╬", t.x * tw, t.y * th);
     });
 
     // Player

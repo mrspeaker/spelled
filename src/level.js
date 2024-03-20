@@ -2,6 +2,12 @@ export const load_level = (name) => {
     return fetch("res/data/" + name).then((r) => r.text());
 };
 
+const mk_spawns = () => ({
+    player: [0, 0],
+    pickups: [],
+    triggers: [],
+});
+
 export const mk_level = (txt) => {
     const raw = txt.split("\n");
     const h = raw.length;
@@ -9,11 +15,7 @@ export const mk_level = (txt) => {
 
     const pre_lines = raw.map((l) => l.padEnd(w) + "▓");
 
-    const spawns = {
-        player: [0, 0],
-        pickups: [],
-        doors: [],
-    };
+    const spawns = mk_spawns();
 
     const chars = pre_lines.map((l, y) =>
         l.split("").map((ch, x) => {
@@ -27,11 +29,11 @@ export const mk_level = (txt) => {
                 return " ";
             }
             if (ch === "╬") {
-                spawns.doors.push({ x, y });
+                spawns.triggers.push({ x, y, type: "door" });
                 return " ";
             }
             if (ch === " " && l[x + 1] === " " && l[x - 1] === " ") {
-                return "@";
+                // return "@";
             }
             return ch;
         }),
@@ -39,33 +41,42 @@ export const mk_level = (txt) => {
     const post_lines = chars.map((l) => l.join(""));
 
     const indexes = post_lines.map((l) => {
-        const words = l.split(" ");
-        return words.reduce(
-            (ac, el) => {
-                const { words, i } = ac;
-                const start = i;
-                const word = el;
-                const len = word.length;
-                words.push({
-                    word,
-                    start,
-                    end: start + len,
-                });
-                return { words, i: start + len + 1 };
+        return l.split("").reduce(
+            (ac, el, i) => {
+                let { words, cur, state } = ac;
+                if (state === "none" && el !== " ") {
+                    cur = {
+                        word: el,
+                        start: i,
+                        end: -1,
+                    };
+                    state = "word";
+                } else if (state === "word") {
+                    cur.end = i;
+                    if (el !== " ") {
+                        cur.word += el;
+                    } else {
+                        words.push(cur);
+                        state = "none";
+                    }
+                }
+                return { words, cur, state };
             },
-            { words: [], i: 0 },
-        );
+            {
+                words: [],
+                cur: null,
+                state: "none",
+            },
+        ).words;
     });
 
-    const get_by_index = (x, y) => {
-        const word = indexes[y].words.find(({ end }) => end >= x);
-        return word;
-    };
+    const get_by_index = (x, y) =>
+        indexes[y].find(({ start, end }) => start <= x && end >= x);
 
     const word_at_xy = (x, y) => {
         const token = get_by_index(x, y);
         if (!token) {
-            console.log(x, y, indexes[y].words);
+            return null;
         }
         const word = token.word;
         const char_idx = x - token.start;
@@ -82,8 +93,12 @@ export const mk_level = (txt) => {
 
     const ch_at_xy = (x, y) => {
         const token = get_by_index(x, y);
+        if (!token) return null;
         const char_idx = x - token.start;
-        return token.word[char_idx] || " ";
+        if (!token.word[char_idx]) {
+            console.warn("no ch", token.word, x, y);
+        }
+        return token.word[char_idx];
     };
 
     return {
