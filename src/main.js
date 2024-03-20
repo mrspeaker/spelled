@@ -15,19 +15,19 @@ const update = (state) => {
     const res = update_typing(state);
     if (res === "fwd") {
         state.particles.push(
-            ...mk_particles(oldx * state.tw, state.cursor.y * state.th + 5)
+            ...mk_particles(oldx * state.tw, state.cursor.y * state.th + 5),
         );
     }
-    update_player(state.player);
+    update_player(state.player, state.keys, state.cursor);
     update_physics(state);
     update_particles(state.particles);
 
     const picked_up = pickup_collisions(
         { x: state.player.x * state.tw, y: state.player.y * state.th },
-        state.entities
+        state.entities,
     );
     if (picked_up.length) {
-        state.flash = 5;
+        state.flash = 4;
         state.entities = state.entities.filter((e) => !picked_up.includes(e));
     }
 

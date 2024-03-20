@@ -25,6 +25,9 @@ boop of the thing
 
   - More "flow-y"... always moving to right - can go up and down, but not really backwards.
     (maybe if level disintegrates behind you)
+    - should build momentum: combo goes faster, level has chutes and portals to make it feel less "only-go-right",
+      they propell you forward
+ 
 
 *** Dum rando
 - tying rhythm game section.

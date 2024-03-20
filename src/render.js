@@ -50,7 +50,7 @@ export const render = (renderer, state) => {
 
     if (state.flash > 0) {
         state.flash--;
-        ctx.fillStyle = colors[0];
+        ctx.fillStyle = "#fff";
         ctx.fillRect(0, 0, w, h);
         return;
     }
@@ -64,7 +64,7 @@ export const render = (renderer, state) => {
 
     // Particles
     if (particles.length) {
-        ctx.fillStyle = colors[10];
+        ctx.fillStyle = colors[11];
         particles.forEach((p) => {
             ctx.fillRect(p.x, p.y, p.size, p.size);
         });
@@ -78,10 +78,21 @@ export const render = (renderer, state) => {
 
     // Level text
     ctx.fillStyle = colors[1];
+    let open = false;
     for (let j = cy; j < cy2; j++) {
         for (let i = cx; i < cx2; i++) {
-            ctx.fillText(level.chars[j][i], i * tw, j * th);
+            const ch = level.chars[j][i];
+            if (ch === "[") {
+                ctx.fillStyle = colors[7];
+                open = true;
+            }
+            ctx.fillText(ch, i * tw, j * th);
+            if (ch === "]") {
+                ctx.fillStyle = colors[1];
+                open = false;
+            }
         }
+        if (open) ctx.fillStyle = colors[1];
     }
 
     // Target words
@@ -110,27 +121,30 @@ export const render = (renderer, state) => {
             ctx.fillText(
                 typing.back.word[0],
                 typing.back.start * tw,
-                cur.y * th
+                cur.y * th,
             );
         typing.up &&
             typing.up.word.length &&
             ctx.fillText(
                 typing.up.word[0],
                 typing.up.start * tw,
-                (cur.y - 1) * th
+                (cur.y - 1) * th,
             );
         typing.down &&
             typing.down.word.length &&
             ctx.fillText(
                 typing.down.word[0],
                 typing.down.start * tw,
-                (cur.y + 1) * th
+                (cur.y + 1) * th,
             );
     }
 
     // Highlight current letter
-    if (blink(100) && cur.ch) {
-        ctx.fillStyle = colors[13];
+    if (blink(200) && cur.ch) {
+        ctx.fillStyle = colors[10];
+        //ctx.fillText("▓", cur.x * tw, cur.y * th);
+        ctx.fillRect(cur.x * tw, cur.y * th, tw - 1, th);
+        ctx.fillStyle = colors[15];
         ctx.fillText(cur.ch, cur.x * tw, cur.y * th);
     }
 
@@ -159,7 +173,7 @@ export const render = (renderer, state) => {
         player.x * tw,
         player.y * th + 6,
         9,
-        11
+        11,
     );
 
     ctx.restore();

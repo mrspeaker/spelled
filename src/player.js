@@ -11,7 +11,16 @@ export const mk_player = (x, y) => ({
     jumpStart: 0,
 });
 
-export const update_player = (p) => {
+export const update_player = (p, keys, cursor) => {
+    if (keys.isDown(" ") && !p.jumping) {
+        p.acy = -0.2;
+        p.jumping = true;
+        p.jumpStart = p.y;
+    }
+    // Set the player target to cursor
+    p.tx = cursor.x;
+    p.ty = cursor.y - 1;
+
     const dx = p.tx - p.x;
     const dy = p.ty - p.y;
     if (Math.abs(dx) > 0.1) {

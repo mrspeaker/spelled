@@ -6,7 +6,7 @@ export const mk_typing_state = () => ({
 });
 
 const set_word = (state) => {
-    const { level, cursor, typing, player } = state;
+    const { level, cursor, typing } = state;
     const word = level.word_at_xy(cursor.x, cursor.y);
     typing.fwd = word;
     typing.back = level.word_at_xy(word.start - 1, cursor.y);
@@ -14,12 +14,12 @@ const set_word = (state) => {
     if (typing.back.start >= typing.fwd.start) {
         typing.back = null;
     }
-    typing.down = level.word_at_xy(player.x, cursor.y + 1);
-    typing.up = level.word_at_xy(player.x, cursor.y - 1);
+    typing.down = level.word_at_xy(cursor.x, cursor.y + 1);
+    typing.up = level.word_at_xy(cursor.x, cursor.y - 1);
 };
 
 export const update_typing = (state) => {
-    const { level, cursor, keys, player, typing } = state;
+    const { level, cursor, keys, typing } = state;
     // Should only be null on level load. Move this to init
     if (!typing.fwd) {
         set_word(state);
@@ -40,10 +40,9 @@ export const update_typing = (state) => {
         back_ch,
         up_ch !== " " ? up_ch : null,
         down_ch !== " " ? down_ch : null,
-        " ",
     ];
     const downs = checks.map((ch) => ch && keys.isDown(ch));
-    const [isFwd, isDel, isBack, isUp, isDown, isEnter] = downs;
+    const [isFwd, isDel, isBack, isUp, isDown] = downs;
 
     if (isFwd) {
         cursor.x += 1;
@@ -65,10 +64,6 @@ export const update_typing = (state) => {
         if (level.ch_at_xy(cursor.x, cursor.y) === " ") {
             cursor.x -= 1;
         }
-    } else if (isEnter && !player.jumping) {
-        player.acy = -0.2;
-        player.jumping = true;
-        player.jumpStart = player.y;
     }
 
     // Restrict cursor to level
@@ -79,12 +74,6 @@ export const update_typing = (state) => {
 
     // Clear any pressed keys
     downs.forEach((isDown, i) => isDown && keys.clear(checks[i]));
-
-    // Set the player target to cursor
-    // (todo: move any player stuff from typing.js to
-    // ...somewhere else)
-    player.tx = cursor.x;
-    player.ty = cursor.y - 1;
 
     return res;
 };
