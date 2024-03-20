@@ -42,7 +42,7 @@ export const update_typing = (state) => {
         back_ch,
         up_ch !== " " ? up_ch : null,
         down_ch !== " " ? down_ch : null,
-        "Enter",
+        " ",
     ];
     const downs = checks.map((ch) => ch && keys.isDown(ch));
     const [isFwd, isDel, isBack, isUp, isDown, isEnter] = downs;
@@ -83,6 +83,7 @@ export const update_typing = (state) => {
         player.jumping = true;
         player.jumpStart = player.y;
     }
+
     player.tx = cursor.x;
 
     set_word(state);
