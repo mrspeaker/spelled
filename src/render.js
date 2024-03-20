@@ -82,6 +82,7 @@ export const render = (renderer, state) => {
     for (let j = cy; j < cy2; j++) {
         for (let i = cx; i < cx2; i++) {
             const ch = level.chars[j][i];
+            if (ch === "@") continue;
             if (ch === "[") {
                 ctx.fillStyle = colors[7];
                 open = true;
@@ -101,7 +102,9 @@ export const render = (renderer, state) => {
         if (!w) return;
         ctx.fillStyle = colors[wi ? 8 : 11];
         for (let i = w.start; i < w.end; i++) {
-            ctx.fillText(w.word[i - w.start], i * tw, w.y * th);
+            const ch = w.word[i - w.start];
+            if (ch === "@") continue;
+            ctx.fillText(ch, i * tw, w.y * th);
             if (wi === 0 && i === cursor.x) {
                 cur.ch = w.word[i - w.start];
                 cur.x = i;
@@ -118,6 +121,7 @@ export const render = (renderer, state) => {
     if (blink(200)) {
         typing.back &&
             typing.back.word.length &&
+            typing.back.word[0] !== "@" &&
             ctx.fillText(
                 typing.back.word[0],
                 typing.back.start * tw,
@@ -125,6 +129,7 @@ export const render = (renderer, state) => {
             );
         typing.up &&
             typing.up.word.length &&
+            typing.up.word[0] !== "@" &&
             ctx.fillText(
                 typing.up.word[0],
                 typing.up.start * tw,
@@ -132,6 +137,7 @@ export const render = (renderer, state) => {
             );
         typing.down &&
             typing.down.word.length &&
+            typing.down.word[0] !== "@" &&
             ctx.fillText(
                 typing.down.word[0],
                 typing.down.start * tw,
@@ -140,7 +146,7 @@ export const render = (renderer, state) => {
     }
 
     // Highlight current letter
-    if (blink(200) && cur.ch) {
+    if (blink(200) && cur.ch !== "@") {
         ctx.fillStyle = colors[10];
         //ctx.fillText("▓", cur.x * tw, cur.y * th);
         ctx.fillRect(cur.x * tw, cur.y * th, tw - 1, th);

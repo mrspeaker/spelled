@@ -30,8 +30,11 @@ export const mk_level = (txt) => {
                 spawns.doors.push({ x, y });
                 return " ";
             }
+            if (ch === " " && l[x + 1] === " " && l[x - 1] === " ") {
+                return "@";
+            }
             return ch;
-        })
+        }),
     );
     const post_lines = chars.map((l) => l.join(""));
 
@@ -50,7 +53,7 @@ export const mk_level = (txt) => {
                 });
                 return { words, i: start + len + 1 };
             },
-            { words: [], i: 0 }
+            { words: [], i: 0 },
         );
     });
 
