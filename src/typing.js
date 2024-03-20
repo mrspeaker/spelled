@@ -10,6 +10,10 @@ const set_word = (state) => {
     const word = level.word_at_xy(cursor.x, cursor.y);
     typing.fwd = word;
     typing.back = level.word_at_xy(word.start - 1, cursor.y);
+    // TODO: handle starting values better
+    if (typing.back.start >= typing.fwd.start) {
+        typing.back = null;
+    }
     typing.down = level.word_at_xy(player.x, cursor.y + 1);
     typing.up = level.word_at_xy(player.x, cursor.y - 1);
 };
@@ -26,7 +30,7 @@ export const update_typing = (state) => {
 
     const ch_num = cursor.x - fwd.start;
     const fwd_ch = (fwd.word + " ")[ch_num];
-    const back_ch = (back.word + " ")[0];
+    const back_ch = back ? (back.word + " ")[0] : "";
     const down_ch = (down.word + " ")[0];
     const up_ch = (up.word + " ")[0];
 

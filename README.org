@@ -18,7 +18,13 @@ a    x
 boop of the thing
 ... maybe like, top down and the words are paths, can choose the forks
 
-- mash-mode powerup (just mash any keys to progress), 
+- mash-mode powerup (just mash any keys to progress),
+
+  - letters fall away, platforms fall down (must type faster)
+  - gumbas change the letters as youre typing: mix up the words.
+
+  - More "flow-y"... always moving to right - can go up and down, but not really backwards.
+    (maybe if level disintegrates behind you)
 
 *** Dum rando
 - tying rhythm game section.

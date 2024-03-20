@@ -57,7 +57,7 @@ const init = async (doc) => {
     const lvl = await load_level("lvl01.txt");
     const state = mk_state(w, h, keys, lvl);
 
-    const { player, cursor, level, tw, th } = state;
+    const { player, cursor, camera, level, tw, th } = state;
     const { spawns } = level;
     player.x = spawns.player[0];
     player.y = spawns.player[1];
@@ -65,6 +65,8 @@ const init = async (doc) => {
     player.ty = player.y;
     cursor.x = player.x;
     cursor.y = player.y + 1;
+    update_camera(camera, state, true);
+
     spawns.pickups.forEach((p) => {
         state.entities.push(mk_pickup(p[0] * tw, p[1] * th));
     });
