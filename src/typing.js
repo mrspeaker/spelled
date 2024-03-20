@@ -52,39 +52,39 @@ export const update_typing = (state) => {
         res = "fwd";
         // Testing: auto advance without space bar
         if (fwd_ch === " " || cursor.x === fwd.end) {
-            // Word is "done" - advance player
+            // Word is "done" - advance over space character
             cursor.x += 1;
-            player.tx = cursor.x;
         } else if (ch_num >= 3) {
-            // Testing - auto advance after 4 characters
+            // Auto advance after 4 characters (in long words)
             cursor.x = fwd.end + 1;
-            player.tx = cursor.x;
         }
     } else if (isBack) {
         cursor.x = back.start;
-        player.tx = cursor.x;
     } else if (isDown) {
         cursor.y += 3;
-        player.tx = cursor.x;
-        player.ty = cursor.y - 1;
     } else if (isUp) {
         cursor.y -= 3;
-        player.tx = cursor.x;
-        player.ty = cursor.y - 1;
     } else if (isDel) {
         cursor.x -= 1;
         // See if we've gone back a word
         if (level.ch_at_xy(cursor.x, cursor.y) === " ") {
             cursor.x -= 1;
         }
-        player.tx = cursor.x;
     } else if (isEnter && !player.jumping) {
         player.acy = -0.2;
         player.jumping = true;
         player.jumpStart = player.y;
     }
 
+    // Restrict cursor to level
+    if (cursor.x < 0) cursor.x = 0;
+    if (cursor.x > level.w - 2) cursor.x = level.w - 2;
+
+    // Set the player target to cursor
+    // (todo: move any player stuff from typing.js to
+    // ...somewhere else)
     player.tx = cursor.x;
+    player.ty = cursor.y - 1;
 
     set_word(state);
 
