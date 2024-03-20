@@ -19,7 +19,7 @@ const update = (state, keys) => {
     if (res === "fwd") {
         particles.push(...mk_particles(oldx * tw, cursor.y * th + 5));
     }
-    update_player(p, keys, cursor);
+    update_player(state, keys);
     update_physics(state);
     update_particles(particles);
 
@@ -37,6 +37,12 @@ const update = (state, keys) => {
     trigger_collisions(state.triggers, p, async () => {
         next_level(state);
     });
+
+    if (p.dead) {
+        state.cur_level--;
+        next_level(state, true);
+    }
+
     update_camera(state.camera, state);
 };
 
@@ -56,16 +62,23 @@ const run = (state, renderer, keys) => {
     requestAnimationFrame(loop);
 };
 
-const next_level = async (state) => {
+const next_level = async (state, reset = false) => {
     const { player, cursor, camera, tw, th } = state;
 
-    state.level = mk_level(await load_level(`lvl0${++state.cur_level}.txt`));
+    const txt = reset
+        ? state.cur_level_txt
+        : await load_level(`lvl0${++state.cur_level}.txt?t=` + Date.now());
+
+    state.level = mk_level(txt);
+    state.cur_level_txt = txt;
 
     const { spawns } = state.level;
     player.x = spawns.player[0];
     player.y = spawns.player[1];
     player.tx = player.x;
     player.ty = player.y;
+    player.jumping = false;
+    player.dead = false;
     cursor.x = player.x;
     cursor.y = player.y + 1;
     update_camera(camera, state, true);

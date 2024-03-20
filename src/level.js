@@ -71,7 +71,7 @@ export const mk_level = (txt) => {
     });
 
     const get_by_index = (x, y) =>
-        indexes[y].find(({ start, end }) => start <= x && end >= x);
+        indexes[y].find(({ start, end }) => start <= x && end > x);
 
     const word_at_xy = (x, y) => {
         const token = get_by_index(x, y);
@@ -93,10 +93,16 @@ export const mk_level = (txt) => {
 
     const ch_at_xy = (x, y) => {
         const token = get_by_index(x, y);
-        if (!token) return null;
+
+        if (!token) {
+            const next = get_by_index(x + 1, y);
+            const prev = get_by_index(x - 1, y);
+            return !next || !prev ? null : " ";
+        }
         const char_idx = x - token.start;
         if (!token.word[char_idx]) {
             console.warn("no ch", token.word, x, y);
+            return " ";
         }
         return token.word[char_idx];
     };

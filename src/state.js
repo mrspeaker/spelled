@@ -12,6 +12,7 @@ export const mk_state = (w, h) => ({
     dt: 0,
     level: null,
     cur_level: 0,
+    cur_level_txt: null,
     camera: mk_camera(),
     player: mk_player(10, 4),
     cursor: mk_cursor(10, 5),

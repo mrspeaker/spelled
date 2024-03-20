@@ -7,7 +7,13 @@ export const mk_typing_state = () => ({
 
 const set_word = (state) => {
     const { level, cursor, typing } = state;
-    const word = level.word_at_xy(cursor.x, cursor.y);
+    let word = level.word_at_xy(cursor.x, cursor.y);
+    if (!word) {
+        // TODO: lol, what. this is for when you land on
+        // a space character, go to next word.
+        // but obvs not correct (what if no next?)
+        word = level.word_at_xy(++cursor.x, cursor.y);
+    }
     typing.fwd = word;
     typing.back = level.word_at_xy(word.start - 1, cursor.y);
     typing.down = level.word_at_xy(cursor.x, cursor.y + 1);
@@ -52,9 +58,9 @@ export const update_typing = (state, keys) => {
     } else if (isBack) {
         cursor.x = back.start;
     } else if (isDown) {
-        cursor.y += 3; // Only "works" as ground is y % 3
+        cursor.y += 1; // Only "works" as ground is y % 3
     } else if (isUp) {
-        cursor.y -= 3; // Only "works" as ground is y % 3
+        cursor.y -= 1; // Only "works" as ground is y % 3
     } else if (isDel) {
         cursor.x -= 1;
         // See if we've gone back a word
