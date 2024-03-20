@@ -37,9 +37,12 @@ const update = (state, keys) => {
     trigger_collisions(state.triggers, p, async () => {
         next_level(state);
     });
+    if (keys.isDown("`")) {
+        next_level(state);
+        keys.clear("`");
+    }
 
     if (p.dead) {
-        state.cur_level--;
         next_level(state, true);
     }
 
@@ -64,11 +67,11 @@ const run = (state, renderer, keys) => {
 
 const next_level = async (state, reset = false) => {
     const { player, cursor, camera, tw, th } = state;
-
     const txt = reset
         ? state.cur_level_txt
-        : await load_level(`lvl0${++state.cur_level}.txt?t=` + Date.now());
-
+        : await load_level(
+              `lvl0${(++state.cur_level % 3) + 1}.txt?t=` + Date.now(),
+          );
     state.level = mk_level(txt);
     state.cur_level_txt = txt;
 
