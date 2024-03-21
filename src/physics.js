@@ -4,7 +4,7 @@ export const update_physics = (state) => {
     player.y += player.vy;
 
     player.vx += player.acx;
-    player.vx *= 0.97;
+    player.vx *= 0.98;
     player.acx = 0;
 
     // Gravity
