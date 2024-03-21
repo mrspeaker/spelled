@@ -42,7 +42,7 @@ export const mk_level = (txt) => {
                 return " ";
             }
             return ch;
-        })
+        }),
     );
     const post_lines = chars.map((l) => l.join(""));
 
@@ -58,11 +58,15 @@ export const mk_level = (txt) => {
                     };
                     state = "word";
                 } else if (state === "word") {
-                    cur.end = i;
+                    cur.end = i - 1;
                     if (el !== " ") {
                         cur.word += el;
                     } else {
                         words.push(cur);
+                        // Next word?
+                        if (l[i + 1] !== " ") {
+                            words.push({ word: " ", start: i, end: i });
+                        }
                         state = "none";
                     }
                 }
@@ -72,12 +76,12 @@ export const mk_level = (txt) => {
                 words: [],
                 cur: null,
                 state: "none",
-            }
+            },
         ).words;
     });
 
     const get_by_index = (x, y) =>
-        indexes[y]?.find(({ start, end }) => start <= x && end > x);
+        indexes[y]?.find(({ start, end }) => start <= x && end >= x);
 
     const word_at_xy = (x, y) => {
         const token = get_by_index(x, y);

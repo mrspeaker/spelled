@@ -78,22 +78,11 @@ export const render = (renderer, state) => {
 
     // Level text
     ctx.fillStyle = colors[1];
-    let open = false;
     for (let j = cy; j < cy2; j++) {
         for (let i = cx; i < cx2; i++) {
             const ch = level.chars[j][i];
-            //if (ch === "@") continue;
-            if (ch === "[") {
-                ctx.fillStyle = colors[7];
-                open = true;
-            }
             ctx.fillText(ch, i * tw, j * th);
-            if (ch === "]") {
-                ctx.fillStyle = colors[1];
-                open = false;
-            }
         }
-        if (open) ctx.fillStyle = colors[1];
     }
 
     // Target words
@@ -101,9 +90,8 @@ export const render = (renderer, state) => {
     [typing.fwd, typing.back, typing.up, typing.down].forEach((w, wi) => {
         if (!w) return;
         ctx.fillStyle = colors[wi ? 8 : 11];
-        for (let i = w.start; i < w.end; i++) {
+        for (let i = w.start; i <= w.end; i++) {
             const ch = w.word[i - w.start];
-            if (ch === "@") continue;
             ctx.fillText(ch, i * tw, w.y * th);
             if (wi === 0 && i === cursor.x) {
                 cur.ch = w.word[i - w.start];
@@ -117,11 +105,9 @@ export const render = (renderer, state) => {
 
     // Highlight other target letters
     ctx.fillStyle = colors[1];
-    //    [typing.back, typing.up, typing.down].forEach((w, wi) => {
     if (blink(200)) {
         typing.back &&
             typing.back.word.length &&
-            typing.back.word[0] !== "@" &&
             ctx.fillText(
                 typing.back.word[0],
                 typing.back.start * tw,
@@ -129,7 +115,6 @@ export const render = (renderer, state) => {
             );
         typing.up &&
             typing.up.word.length &&
-            typing.up.word[0] !== "@" &&
             ctx.fillText(
                 typing.up.word[0],
                 typing.up.start * tw,
@@ -137,7 +122,6 @@ export const render = (renderer, state) => {
             );
         typing.down &&
             typing.down.word.length &&
-            typing.down.word[0] !== "@" &&
             ctx.fillText(
                 typing.down.word[0],
                 typing.down.start * tw,
@@ -146,7 +130,7 @@ export const render = (renderer, state) => {
     }
 
     // Highlight current letter
-    if (blink(200) && cur.ch !== "@") {
+    if (blink(200)) {
         ctx.fillStyle = colors[10];
         //ctx.fillText("▓", cur.x * tw, cur.y * th);
         ctx.fillRect(cur.x * tw, cur.y * th, tw - 1, th);
@@ -190,4 +174,15 @@ export const render = (renderer, state) => {
     // UI
     ctx.fillStyle = colors[13];
     ctx.fillText(`${cursor.x} ${cursor.y},${typing.fwd?.word ?? "-"}`, 2, 2);
+
+    ctx.font = "36px 'dos', monospace";
+
+    if (state.level_state !== "init") {
+        ctx.fillStyle = colors[11];
+        ctx.fillText(`${(state.level_t / 1000).toFixed(2)}`, w / 2, 30);
+        if (state.level_state == "done") {
+            ctx.fillStyle = colors[0];
+            ctx.fillText("complete!", w / 2 - 50, 5);
+        }
+    }
 };

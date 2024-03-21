@@ -11,22 +11,38 @@ import { mk_level, load_level } from "./level.js";
 import { mk_state } from "./state.js";
 import { assets_load } from "./assets.js";
 
-const update = (state, keys) => {
+const update = (state, keys, dt) => {
     const { player: p, cursor, particles, tw, th } = state;
 
-    const oldx = cursor.x;
-    const res = update_typing(state, keys);
-    if (res === "fwd") {
-        particles.push(...mk_particles(oldx * tw, cursor.y * th + 5));
+    if (state.level_state !== "done") {
+        const oldx = cursor.x;
+        const res = update_typing(state, keys);
+        if (res === "fwd") {
+            particles.push(...mk_particles(oldx * tw, cursor.y * th + 5));
+            if (state.level_state === "init") {
+                state.level_state = "typing";
+            }
+        }
     }
-    update_player(state, keys);
-    update_physics(state);
+
+    if (state.level_state === "typing") {
+        state.level_t += dt;
+    }
+
+    if (state.level_state === "done") {
+        if (state.state_t > 5000) {
+            next_level(state);
+        }
+    } else {
+        update_player(state, keys);
+        update_physics(state);
+    }
     update_particles(particles);
 
     // And pickups?
     const picked_up = pickup_collisions(
         { x: p.x * tw, y: p.y * th },
-        state.entities
+        state.entities,
     );
     if (picked_up.length) {
         state.flash = 4;
@@ -35,7 +51,10 @@ const update = (state, keys) => {
 
     // Check triggers
     trigger_collisions(state.triggers, p, async () => {
-        next_level(state);
+        if (state.level_state !== "done") {
+            state.level_state = "done";
+            state.state_t = 0;
+        }
     });
     if (keys.isDown("`")) {
         next_level(state);
@@ -47,17 +66,19 @@ const update = (state, keys) => {
     }
 
     update_camera(state.camera, state);
+
+    state.state_t += dt;
 };
 
 const run = (state, renderer, keys) => {
     const loop = (t) => {
-        const dt = t - state.t;
+        const dt = Math.min(30, t - state.t);
         state.t = t;
         state.dt = dt;
         state.ms_acc += dt;
         while (state.ms_acc >= state.ms) {
             state.ms_acc -= state.ms;
-            update(state, keys);
+            update(state, keys, state.ms);
         }
         render(renderer, state);
         requestAnimationFrame(loop);
@@ -70,9 +91,11 @@ const next_level = async (state, reset = false) => {
     const txt = reset
         ? state.cur_level_txt
         : await load_level(
-              `lvl0${(++state.cur_level % 3) + 1}.txt?t=` + Date.now()
+              `lvl0${(++state.cur_level % 3) + 1}.txt?t=` + Date.now(),
           );
     state.level = mk_level(txt);
+    state.level_t = 0;
+    state.level_state = "init";
     state.cur_level_txt = txt;
 
     const { spawns } = state.level;

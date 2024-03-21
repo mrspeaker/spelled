@@ -9,6 +9,7 @@ const set_word = (state) => {
     const { level, cursor, typing } = state;
     let word = level.word_at_xy(cursor.x, cursor.y);
     if (!word) {
+        console.log("no word", cursor.x, cursor.y);
         // TODO: lol, what. this is for when you land on
         // a space character, go to next word.
         // but obvs not correct (what if no next?)
@@ -44,19 +45,16 @@ export const update_typing = (state, keys) => {
     const [isFwd, isDel, isBack, isUp, isDown] = downs;
 
     if (isFwd) {
-        cursor.x += 1;
-        res = "fwd";
-        // Testing: auto advance without space bar
-        if (fwd_ch === " " || cursor.x === fwd.end) {
-            // Word is "done" - advance over space character
+        if (cursor.x === fwd.end) {
+            // Word boundary - don't move fwd if no next word
             if (level.word_at_xy(cursor.x + 1, cursor.y)) {
                 cursor.x += 1; // there is a next word
-            } else {
-                cursor.x -= 1; // at platform edge, go back
+                // Boost?
             }
+        } else {
+            cursor.x += 1;
+            res = "fwd";
         }
-    } else if (isBack) {
-        cursor.x = back.start;
     } else if (isDown) {
         cursor.y += 1; // Only "works" as ground is y % 3
     } else if (isUp) {
