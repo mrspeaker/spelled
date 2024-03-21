@@ -2,41 +2,51 @@
 ** TODO
 
 ** Ideas
-- Levels? Start super easy, get out... get's harder. Maybe not "levels", but rooms, so there is a progression - very easy to teach mechanics.
+- Levels? Start super easy, get out... get's harder. Maybe not "levels", but rooms, so there is a progression - very easy to teach mechanics.... and speed run
   
 - only need to type ~4 characters then the word autocompletes?... and/or, like a combo: type whole words and get "on fire" and it starts autocompleting, and you zoom faster. Should feel like a typing GOD.
 
-  (remember power-up mode in Sublime/Atom?)
+-  (remember power-up mode in Sublime/Atom?)
   
 - later skill: words are related to other nearby words, highlihted and can start typing them to teleport
 - Gain a supply of "forward-word/ backward word/ sentence etc" shortcuts. Emacs/vim binds as powerups.
 
   ** Other  PRototyep:
-  - might work better as a dungeon crawler than a platformer... but how does the typing work if you are, say, in a corridor:
-this is the level
-a    x
-boop of the thing
-... maybe like, top down and the words are paths, can choose the forks
+- might work as a dungeon crawler... but how does the typing work if you are, say, in a corridor... can you only ... maybe like, top down and the words are paths, can choose the forks?
 
 - mash-mode powerup (just mash any keys to progress),
 
-  - letters fall away, platforms fall down (must type faster)
-  - gumbas change the letters as youre typing: mix up the words.
-
-  - More "flow-y"... always moving to right - can go up and down, but not really backwards.
+- letters fall away, platforms fall down (must type faster)
+- gumbas change the letters as youre typing: mix up the words.
+- make a typo, the character crumbles
+- choose your own adventure: choose the text path, get a different story
+- More "flow-y"... always moving to right - can go up and down, but not really backwards.
     (maybe if level disintegrates behind you)
-    - should build momentum: combo goes faster, level has chutes and portals to make it feel less "only-go-right",
+- should build momentum: combo goes faster, level has chutes and portals to make it feel less "only-go-right",
       they propell you forward
- 
 
+- mario blocks: [A] .. jump and hit button, when you hit, type A and get a coin... its flips, to [T]... if you type rhytmetically, keep getting more coins... could be a "cannon"... jump into the block and type the letter and it shoots you forward - od it right and you can chain them. The new blocks could be dynamically added so you need to type as you pass by it to keep the chain going: (jump up and type A, shoots you forward to B - if you type B it will shoot you to C... but you don't type and wait till you get to D and type D, it shoots you forward)
+
+#+BEGIN_SRC
+                                   E>
+  
+      A>       __  B>     C^    D>
+            __ 
+    _X_   
+#+END_SRC
+   
 *** Dum rando
 - tying rhythm game section.
 - typing of the dead section.
 - flappy bird typing tutor section
 - marquee text as moving platforms
+- Impossible Mission terminals
+  -- programmable crafting things> open terminal, game stops... script some actions, resume.
+  - level is one big worlds, can fall into different parts.
+ - $$$, in game ads as ascii  - real time from twitch
 
 ** aesthetic
 https://www.gridsagegames.com/rexpaint/gallery.html
 
 - or, could be bookish style. Old parchment vibe with ANSI gfx on top
-
+- how to go "floating carl sagan" or Chicken Nugget on this one?

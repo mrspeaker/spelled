@@ -3,7 +3,7 @@ import { mk_keys } from "./keys.js";
 import { update_player } from "./player.js";
 import { mk_typing_state, update_typing } from "./typing.js";
 import { update_camera } from "./camera.js";
-import { mk_pickup, init_pickups, pickup_collisions } from "./pickup.js";
+import { mk_pickup, pickup_collisions } from "./pickup.js";
 import { mk_trigger, trigger_collisions } from "./trigger.js";
 import { update_physics } from "./physics.js";
 import { mk_particles, update_particles } from "./particles.js";
@@ -26,7 +26,7 @@ const update = (state, keys) => {
     // And pickups?
     const picked_up = pickup_collisions(
         { x: p.x * tw, y: p.y * th },
-        state.entities,
+        state.entities
     );
     if (picked_up.length) {
         state.flash = 4;
@@ -70,7 +70,7 @@ const next_level = async (state, reset = false) => {
     const txt = reset
         ? state.cur_level_txt
         : await load_level(
-              `lvl0${(++state.cur_level % 3) + 1}.txt?t=` + Date.now(),
+              `lvl0${(++state.cur_level % 3) + 1}.txt?t=` + Date.now()
           );
     state.level = mk_level(txt);
     state.cur_level_txt = txt;

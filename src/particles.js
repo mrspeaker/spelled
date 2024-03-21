@@ -1,15 +1,13 @@
 import { rndf } from "./utils.js";
 
-const mk_particle = (x, y) => {
-    return {
-        x,
-        y,
-        vx: 0,
-        vy: 0,
-        size: 0,
-        life: 0,
-    };
-};
+const mk_particle = (x, y) => ({
+    x,
+    y,
+    vx: 0,
+    vy: 0,
+    size: 0,
+    life: 0,
+});
 
 const update_particle = (p) => {
     p.x += p.vx;

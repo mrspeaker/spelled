@@ -28,15 +28,21 @@ export const mk_level = (txt) => {
                 spawns.pickups.push([x, y]);
                 return " ";
             }
+            if (ch === "↑") {
+            }
+            if (ch === "↓") {
+            }
+            if (ch === "→") {
+            }
+            if (ch === "←") {
+            }
+
             if (ch === "╬") {
                 spawns.triggers.push({ x, y, type: "door" });
                 return " ";
             }
-            if (ch === " " && l[x + 1] === " " && l[x - 1] === " ") {
-                // return "@";
-            }
             return ch;
-        }),
+        })
     );
     const post_lines = chars.map((l) => l.join(""));
 
@@ -66,12 +72,12 @@ export const mk_level = (txt) => {
                 words: [],
                 cur: null,
                 state: "none",
-            },
+            }
         ).words;
     });
 
     const get_by_index = (x, y) =>
-        indexes[y].find(({ start, end }) => start <= x && end > x);
+        indexes[y]?.find(({ start, end }) => start <= x && end > x);
 
     const word_at_xy = (x, y) => {
         const token = get_by_index(x, y);
@@ -114,12 +120,5 @@ export const mk_level = (txt) => {
         word_at_xy,
         ch_at_xy,
         spawns,
-    };
-};
-
-export const find_free_ground = (level) => {
-    return {
-        x: (Math.random() * level.w) | 0,
-        y: ((Math.random() * (level.h / 3)) | 0) * 3 + 0,
     };
 };

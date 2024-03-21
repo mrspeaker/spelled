@@ -31,7 +31,6 @@ export const update_player = (state, keys) => {
         const dy = p.ty - p.y;
         if (Math.abs(dx) > 0.1) {
             p.acx = Math.sign(dx) * Math.max(0.002, Math.abs(dx) * 0.001);
-            console.log(p.acx.toFixed(3));
         }
 
         if (Math.abs(dy) > 0.1) {
