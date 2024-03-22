@@ -57,8 +57,10 @@ export const update_typing = (state, keys) => {
         }
     } else if (isDown) {
         cursor.y += 1; // Only "works" as ground is y % 3
+        res = "vert";
     } else if (isUp) {
         cursor.y -= 1; // Only "works" as ground is y % 3
+        res = "vert";
     } else if (isDel) {
         cursor.x -= 1;
         // See if we've gone back a word

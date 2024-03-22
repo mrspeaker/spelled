@@ -23,6 +23,11 @@ const update = (state, keys, dt) => {
                 state.level_state = "typing";
             }
         }
+        // Snap to ladder
+        if (res === "vert") {
+            p.x = cursor.x;
+            p.vx = 0;
+        }
     }
 
     if (state.level_state === "typing") {
