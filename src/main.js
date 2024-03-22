@@ -50,6 +50,8 @@ const update = (state, keys, dt) => {
         state.entities,
     );
     if (picked_up.length) {
+        state.level_t -= 2; // Seconds bonus!
+
         state.flash = 4;
         state.entities = state.entities.filter((e) => !picked_up.includes(e));
     }
