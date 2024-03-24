@@ -58,6 +58,7 @@ export const mk_level = (txt) => {
                         word: el,
                         start: i,
                         end: -1,
+                        idx: 0,
                     };
                     state = "word";
                 } else if (state === "word") {
@@ -66,9 +67,14 @@ export const mk_level = (txt) => {
                         cur.word += el;
                     } else {
                         words.push(cur);
-                        // Next word?
+                        // Next word
                         if (l[i + 1] !== " ") {
-                            words.push({ word: " ", start: i, end: i });
+                            words.push({
+                                word: " ",
+                                start: i,
+                                end: i,
+                                idx: ++cur_idx,
+                            });
                         }
                         state = "none";
                     }
@@ -78,6 +84,7 @@ export const mk_level = (txt) => {
             {
                 words: [],
                 cur: null,
+                cur_idx: 0,
                 state: "none",
             },
         ).words;
@@ -91,15 +98,14 @@ export const mk_level = (txt) => {
         if (!token) {
             return null;
         }
-        const word = token.word;
-        const char_idx = x - token.start;
-        const start = token.start;
-        const end = token.end;
+        const { word, start, end, idx } = token;
+        const char_idx = x - start;
         return {
             word,
             char_idx,
             start,
             end,
+            idx,
             y,
         };
     };

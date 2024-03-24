@@ -48,11 +48,11 @@ export const update_player = (state, keys) => {
             // (eg, should we move the cursor - don't want to move
             // to a new word if you're just jumping while running
             // over the same sentance)
-            if (p.y !== cursor.y - 1) {
-                cursor.x = Math.floor(p.x + 0.5);
-                cursor.y = Math.floor(p.y + 1);
-                typing.fwd = null;
-            }
+            // if (p.y !== cursor.y - 1) {
+            cursor.x = Math.floor(p.x + 0.5);
+            cursor.y = Math.floor(p.y + 1);
+            typing.fwd = null;
+            //}
         }
     }
     if (p.y > state.level.h - 2) {
