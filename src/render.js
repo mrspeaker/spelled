@@ -148,7 +148,9 @@ export const render = (renderer, state) => {
     // Triggers
     ctx.fillStyle = colors[13];
     triggers.forEach((t, i) => {
-        ctx.fillText("╬", t.x * tw, t.y * th);
+        if (t.type === "door") {
+            ctx.fillText("╬", t.x * tw, t.y * th);
+        }
     });
 
     // Player

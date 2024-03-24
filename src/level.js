@@ -29,14 +29,17 @@ export const mk_level = (txt) => {
                 return " ";
             }
             if (ch === "↑") {
+                spawns.triggers.push({ x, y, type: "pusher", dir: "up" });
             }
             if (ch === "↓") {
+                spawns.triggers.push({ x, y, type: "pusher", dir: "down" });
             }
             if (ch === "→") {
+                spawns.triggers.push({ x, y, type: "pusher", dir: "right" });
             }
             if (ch === "←") {
+                spawns.triggers.push({ x, y, type: "pusher", dir: "left" });
             }
-
             if (ch === "╬") {
                 spawns.triggers.push({ x, y, type: "door" });
                 return " ";

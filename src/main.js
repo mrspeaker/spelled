@@ -50,17 +50,26 @@ const update = (state, keys, dt) => {
         state.entities,
     );
     if (picked_up.length) {
-        state.level_t -= 2; // Seconds bonus!
-
+        state.level_t -= 4 * 1000; // Seconds bonus!
         state.flash = 4;
         state.entities = state.entities.filter((e) => !picked_up.includes(e));
     }
 
     // Check triggers
-    trigger_collisions(state.triggers, p, async () => {
-        if (state.level_state !== "done") {
-            state.level_state = "done";
-            state.state_t = 0;
+    trigger_collisions(state.triggers, p, (t) => {
+        if (t.type === "door") {
+            if (state.level_state !== "done") {
+                state.level_state = "done";
+                state.state_t = 0;
+            }
+        }
+        if (t.type === "pusher") {
+            const sp = 0.1;
+            if (t.dir === "up") p.acy -= 0.1;
+            if (t.dir === "down") p.acy += 0.1;
+            if (t.dir === "left") p.acx -= 0.1;
+            if (t.dir === "right") p.acx += 0.1;
+            p.jumping = true;
         }
     });
     if (keys.isDown("`")) {
@@ -123,7 +132,7 @@ const next_level = async (state, reset = false) => {
 
     state.triggers = [];
     spawns.triggers.forEach((p) => {
-        state.triggers.push(mk_trigger(p.x, p.y, p.type));
+        state.triggers.push(mk_trigger(p));
     });
 
     state.typing = mk_typing_state();
