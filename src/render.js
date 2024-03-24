@@ -180,9 +180,12 @@ export const render = (renderer, state) => {
     ctx.font = "36px 'dos', monospace";
 
     if (state.level_state !== "init") {
+        const done = state.level_state == "done";
         ctx.fillStyle = colors[11];
-        ctx.fillText(`${(state.level_t / 1000).toFixed(2)}`, w / 2, 30);
-        if (state.level_state == "done") {
+        (!done || blink(350)) &&
+            ctx.fillText(`${(state.level_t / 1000).toFixed(2)}`, w / 2, 30);
+
+        if (done) {
             ctx.fillStyle = colors[0];
             ctx.fillText("complete!", w / 2 - 50, 5);
         }

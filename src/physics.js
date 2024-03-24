@@ -4,8 +4,11 @@ export const update_physics = (state) => {
     player.y += player.vy;
 
     player.vx += player.acx;
-    player.vx *= 0.97;
     player.acx = 0;
+
+    if (!player.jumping) {
+        player.vx *= 0.97;
+    }
 
     // Gravity
     player.acy += 0.01;
