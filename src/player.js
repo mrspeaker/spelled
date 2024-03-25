@@ -44,15 +44,10 @@ export const update_player = (state, keys) => {
         if (onGround && p.vy > 0 && p.acy === 0) {
             p.jumping = false;
             p.y = Math.floor(p.y);
-            // TODO: need to figure out if still on "same" platform
-            // (eg, should we move the cursor - don't want to move
-            // to a new word if you're just jumping while running
-            // over the same sentance)
-            // if (p.y !== cursor.y - 1) {
             cursor.x = Math.floor(p.x + 0.5);
             cursor.y = Math.floor(p.y + 1);
+            // "jump" to new word
             typing.fwd = null;
-            //}
         }
     }
     if (p.y > state.level.h - 2) {

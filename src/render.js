@@ -44,6 +44,9 @@ export const render = (renderer, state) => {
         particles,
         t,
     } = state;
+
+    const level_done = state.level_state == "done";
+
     ctx.fillStyle = colors[15];
     ctx.fillRect(0, 0, w, h);
     ctx.font = "16px 'dos', monospace";
@@ -103,9 +106,17 @@ export const render = (renderer, state) => {
 
     const blink = (ms, off = 0) => Math.floor((t + off) / ms) % 2 === 0;
 
-    // Highlight other target letters
-    ctx.fillStyle = colors[1];
-    if (blink(200)) {
+    // Highlights
+    if (cur.y !== -1 && blink(200) && !level_done) {
+        // Cursor and current letter
+        ctx.fillStyle = colors[10];
+        //ctx.fillText("▓", cur.x * tw, cur.y * th);
+        ctx.fillRect(cur.x * tw, cur.y * th, tw - 1, th);
+        ctx.fillStyle = colors[15];
+        ctx.fillText(cur.ch, cur.x * tw, cur.y * th);
+
+        // Other target letters
+        ctx.fillStyle = colors[1];
         typing.back &&
             typing.back.word.length &&
             ctx.fillText(
@@ -127,15 +138,6 @@ export const render = (renderer, state) => {
                 typing.down.start * tw,
                 (cur.y + 1) * th,
             );
-    }
-
-    // Highlight current letter
-    if (blink(200)) {
-        ctx.fillStyle = colors[10];
-        //ctx.fillText("▓", cur.x * tw, cur.y * th);
-        ctx.fillRect(cur.x * tw, cur.y * th, tw - 1, th);
-        ctx.fillStyle = colors[15];
-        ctx.fillText(cur.ch, cur.x * tw, cur.y * th);
     }
 
     // Pickups
@@ -175,17 +177,20 @@ export const render = (renderer, state) => {
 
     // UI
     ctx.fillStyle = colors[13];
-    ctx.fillText(`${cursor.x} ${cursor.y},${typing.fwd?.word ?? "-"}`, 2, 2);
+    ctx.fillText(
+        `${cur.ch} ${cur.y} ${cursor.x} ${cursor.y},${typing.fwd?.word ?? "-"}`,
+        2,
+        2,
+    );
 
     ctx.font = "36px 'dos', monospace";
 
     if (state.level_state !== "init") {
-        const done = state.level_state == "done";
         ctx.fillStyle = colors[11];
-        (!done || blink(350)) &&
+        (!level_done || blink(350)) &&
             ctx.fillText(`${(state.level_t / 1000).toFixed(2)}`, w / 2, 30);
 
-        if (done) {
+        if (level_done) {
             ctx.fillStyle = colors[0];
             ctx.fillText("complete!", w / 2 - 50, 5);
         }
