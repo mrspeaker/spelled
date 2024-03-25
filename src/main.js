@@ -12,7 +12,7 @@ import { mk_state } from "./state.js";
 import { assets_load } from "./assets.js";
 
 const update = (state, keys, dt) => {
-    const { player: p, cursor, particles, tw, th } = state;
+    const { player: p, cursor, particles, tw, th, t } = state;
 
     if (state.level_state !== "done") {
         const oldx = cursor.x;
@@ -47,7 +47,7 @@ const update = (state, keys, dt) => {
     // And pickups?
     const picked_up = pickup_collisions(
         { x: p.x * tw, y: p.y * th },
-        state.entities,
+        state.entities
     );
     if (picked_up.length) {
         state.level_t -= 4 * 1000; // Seconds bonus!
@@ -56,19 +56,26 @@ const update = (state, keys, dt) => {
     }
 
     // Check triggers
-    trigger_collisions(state.triggers, p, (t) => {
-        if (t.type === "door") {
+    trigger_collisions(state.triggers, p, (tr) => {
+        if (t - tr.triggered < 100) return;
+        tr.triggered = t;
+
+        if (tr.type === "door") {
             if (state.level_state !== "done") {
                 state.level_state = "done";
                 state.state_t = 0;
             }
         }
-        if (t.type === "pusher") {
-            const sp = 0.1;
-            if (t.dir === "up") p.acy -= 0.1;
-            if (t.dir === "down") p.acy += 0.1;
-            if (t.dir === "left") p.acx -= 0.1;
-            if (t.dir === "right") p.acx += 0.1;
+
+        if (tr.type === "pusher") {
+            const sp = 0.3;
+            if (tr.dir === "up") {
+                p.acy -= sp;
+                p.vy = 0; // TODO: hmmm
+            }
+            if (tr.dir === "down") p.acy += sp;
+            if (tr.dir === "left") p.acx -= sp;
+            if (tr.dir === "right") p.acx += sp;
             p.jumping = true;
         }
     });
@@ -107,7 +114,7 @@ const next_level = async (state, reset = false) => {
     const txt = reset
         ? state.cur_level_txt
         : await load_level(
-              `lvl0${(++state.cur_level % 3) + 1}.txt?t=` + Date.now(),
+              `lvl0${(++state.cur_level % 3) + 1}.txt?t=` + Date.now()
           );
     state.level = mk_level(txt);
     state.level_t = 0;
