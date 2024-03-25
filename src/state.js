@@ -4,6 +4,8 @@ import { mk_camera } from "./camera.js";
 import { mk_cursor } from "./cursor.js";
 import { mk_typing_state } from "./typing.js";
 
+const five = 1000 * 30;
+
 export const mk_state = (w, h) => ({
     t: 0,
     last_t: 0,
@@ -28,4 +30,5 @@ export const mk_state = (w, h) => ({
     w,
     h,
     flash: 0,
+    highs: [five, five, five],
 });

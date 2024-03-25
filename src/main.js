@@ -47,7 +47,7 @@ const update = (state, keys, dt) => {
     // And pickups?
     const picked_up = pickup_collisions(
         { x: p.x * tw, y: p.y * th },
-        state.entities
+        state.entities,
     );
     if (picked_up.length) {
         state.level_t -= 4 * 1000; // Seconds bonus!
@@ -63,6 +63,9 @@ const update = (state, keys, dt) => {
         if (tr.type === "door") {
             if (state.level_state !== "done") {
                 state.level_state = "done";
+                if (state.level_t < state.highs[state.cur_level]) {
+                    state.highs[state.cur_level] = state.level_t;
+                }
                 state.state_t = 0;
             }
         }
@@ -114,8 +117,9 @@ const next_level = async (state, reset = false) => {
     const txt = reset
         ? state.cur_level_txt
         : await load_level(
-              `lvl0${(++state.cur_level % 3) + 1}.txt?t=` + Date.now()
+              `lvl0${(++state.cur_level % 3) + 1}.txt?t=` + Date.now(),
           );
+    state.cur_level = state.cur_level % 3;
     state.level = mk_level(txt);
     state.level_t = 0;
     state.level_state = "init";
