@@ -1,6 +1,8 @@
 * typin'
 ** TODO
 
+- TODO: need to somehow conserve/increase momentum on last character - not slow down
+
 ** Ideas
 - Levels? Start super easy, get out... get's harder. Maybe not "levels", but rooms, so there is a progression - very easy to teach mechanics.... and speed run
   
@@ -36,9 +38,11 @@
 #+END_SRC
    
 *** Dum rando
-- tying rhythm game section.
+- tying rhythm game section/guitar hero
 - typing of the dead section.
 - flappy bird typing tutor section
+- Street fighter (with a pre-fabbed fight so timing the typing correctly results in the correct attacks that gets past the guard of the enemy and they are defeated
+ 
 - marquee text as moving platforms
 - Impossible Mission terminals
   -- programmable crafting things> open terminal, game stops... script some actions, resume.
@@ -50,3 +54,33 @@ https://www.gridsagegames.com/rexpaint/gallery.html
 
 - or, could be bookish style. Old parchment vibe with ANSI gfx on top
 - how to go "floating carl sagan" or Chicken Nugget on this one?
+
+  --- Simon notes
+
+- Branching narratives shown by branching paths
+As narrative happens have the elements of the interface change with it
+For example: when describing an alien invasion a ASCII UFO flys above and sucks up the next sentence.
+ 
+- Stanley parable style Meta-referencing narrative
+Show the changes in the rules by foreshadowing them in the text. The player has to read them and type them (2 modes of interaction) to progress to the point, minimal possibility of changes being lost.
+
+Space bar for jumping - spaces in the text require spaces input by the player
+Space bar is the near-universal button for jumping
+Make jumping a requirement
+Mario-style momentum preservation through jumping makes the game a platformer
+
+CYA adventure style interface: Certain sections or adventures or pacing (different stories via different choices will permit users to select their difficulty?)
+
+- Metroidvania by unlocking new techniques?
+Core mechanic is: Typing moves your character
+Secondary: Building your own story with the choices that you make
+Progression: Chapter headings
+Hero myth: Writing your future / control of the
+Abilities / functions:
+Ctrl + I for inserts - add saved words?
+Ctrl + F for find - Find (teleport) to "Arc Words"
+Ctrl + S for Save
+ 
+Colour + sparkle effects for "critical path" words that when you reach that spot / type that word. Adds to the metroidvania feel
+
+Each slot is a different # of letters and you can see the number of placeholder spaces 
