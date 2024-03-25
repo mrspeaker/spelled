@@ -7,7 +7,7 @@ export const update_physics = (state) => {
     player.acx = 0;
 
     if (!player.jumping) {
-        player.vx *= 0.97;
+        player.vx *= 0.9;
     }
 
     // Gravity

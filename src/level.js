@@ -52,7 +52,7 @@ export const mk_level = (txt) => {
     const indexes = post_lines.map((l) => {
         return l.split("").reduce(
             (ac, el, i) => {
-                let { words, cur, state } = ac;
+                let { words, cur, state, cur_idx } = ac;
                 if (state === "none" && el !== " ") {
                     cur = {
                         word: el,
@@ -79,7 +79,7 @@ export const mk_level = (txt) => {
                         state = "none";
                     }
                 }
-                return { words, cur, state };
+                return { words, cur, state, cur_idx };
             },
             {
                 words: [],

@@ -29,7 +29,7 @@ export const update_player = (state, keys) => {
         const dx = p.tx - p.x;
         const dy = p.ty - p.y;
         if (Math.abs(dx) > 0.1) {
-            p.acx = Math.sign(dx) * Math.max(0.003); //, Math.abs(dx) * 0.0005);
+            p.acx = Math.sign(dx) * Math.max(0.01); //, Math.abs(dx) * 0.0005);
         }
 
         if (Math.abs(dy) > 0.1) {
