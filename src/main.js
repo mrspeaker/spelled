@@ -52,6 +52,7 @@ const update = (state, keys, dt) => {
     if (picked_up.length) {
         state.level_t -= 4 * 1000; // Seconds bonus!
         state.flash = 4;
+        state.level_picked += picked_up.length;
         state.entities = state.entities.filter((e) => !picked_up.includes(e));
     }
 
@@ -137,6 +138,7 @@ const next_level = async (state, reset = false) => {
     update_camera(camera, state, true);
 
     state.entities = [];
+    state.level_picks = spawns.pickups.length;
     spawns.pickups.forEach((p) => {
         state.entities.push(mk_pickup(p[0] * tw, p[1] * th));
     });

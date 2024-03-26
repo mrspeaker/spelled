@@ -188,7 +188,11 @@ export const render = (renderer, state) => {
     if (state.level_state !== "init") {
         ctx.fillStyle = colors[11];
         (!level_done || blink(350)) &&
-            ctx.fillText(`${(state.level_t / 1000).toFixed(2)}`, w / 2, 30);
+            ctx.fillText(
+                `${(state.level_t / 1000).toFixed(2)}`,
+                w / 2 - 50,
+                30,
+            );
 
         const high = state.highs[state.cur_level];
         if (level_done) {
@@ -197,6 +201,15 @@ export const render = (renderer, state) => {
                 high === state.level_t ? "new best!" : "complete!",
                 w / 2 - 50,
                 5,
+            );
+            ctx.font = "18px 'dos', monospace";
+            ctx.fillText(
+                `bonuses: ${(
+                    (state.level_picked / state.level_picks) *
+                    100
+                ).toFixed(0)}%`,
+                w / 2 - 50,
+                70,
             );
         } else {
             ctx.font = "18px 'dos', monospace";

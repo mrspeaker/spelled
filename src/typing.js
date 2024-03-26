@@ -40,9 +40,9 @@ export const update_typing = (state, keys) => {
     if (isFwd) {
         if (cursor.x === fwd.end) {
             // Word boundary
+            res = "fwd";
         }
         cursor.x += 1;
-        res = "fwd";
     } else if (isDown) {
         cursor.y += 1;
         res = "vert";

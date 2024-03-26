@@ -16,6 +16,8 @@ export const mk_state = (w, h) => ({
     level_state: "init",
     state_t: 0,
     level_t: 0,
+    level_picks: 0,
+    level_picked: 0,
     cur_level: -1,
     cur_level_txt: null,
     camera: mk_camera(),
