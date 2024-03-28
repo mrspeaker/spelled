@@ -122,35 +122,38 @@ export const render = (renderer, state) => {
             ctx.fillText(
                 typing.back.word[0],
                 typing.back.start * tw,
-                cur.y * th
+                cur.y * th,
             );
         typing.up &&
             typing.up.word.length &&
             ctx.fillText(
                 typing.up.word[0],
                 typing.up.start * tw,
-                (cur.y - 1) * th
+                (cur.y - 1) * th,
             );
         typing.down &&
             typing.down.word.length &&
             ctx.fillText(
                 typing.down.word[0],
                 typing.down.start * tw,
-                (cur.y + 1) * th
+                (cur.y + 1) * th,
             );
     }
 
     // Pickups
-    ctx.fillStyle = colors[10];
     entities.forEach((e, i) => {
-        const on = blink(800, i * 200);
-        ctx.fillText(on ? "*" : ".", e.x, e.y + (on ? 0 : -3));
-    });
-
-    // Rocks
-    ctx.fillStyle = colors[10];
-    entities.forEach((e, i) => {
-        ctx.fillText("♣", e.x, e.y);
+        const { x, y, type } = e;
+        switch (type) {
+            case "pickup":
+                const on = blink(800, i * 200);
+                ctx.fillStyle = colors[10];
+                ctx.fillText(on ? "*" : ".", x, y + (on ? 0 : -3));
+                break;
+            case "rock":
+                ctx.fillStyle = colors[10];
+                ctx.fillText("♣", e.x, e.y);
+                break;
+        }
     });
 
     // Triggers
@@ -173,7 +176,7 @@ export const render = (renderer, state) => {
         player.x * tw,
         player.y * th + 6,
         9,
-        11
+        11,
     );
 
     ctx.restore();
@@ -186,7 +189,7 @@ export const render = (renderer, state) => {
     ctx.fillText(
         `${cur.ch} ${cur.y} ${cursor.x} ${cursor.y},${typing.fwd?.word ?? "-"}`,
         2,
-        2
+        2,
     );
 
     ctx.font = "36px 'dos', monospace";
@@ -197,7 +200,7 @@ export const render = (renderer, state) => {
             ctx.fillText(
                 `${(state.level_t / 1000).toFixed(2)}`,
                 w / 2 - 50,
-                30
+                30,
             );
 
         const high = state.highs[state.cur_level];
@@ -206,7 +209,7 @@ export const render = (renderer, state) => {
             ctx.fillText(
                 high === state.level_t ? "new best!" : "complete!",
                 w / 2 - 50,
-                5
+                5,
             );
             ctx.font = "18px 'dos', monospace";
             ctx.fillText(
@@ -215,7 +218,7 @@ export const render = (renderer, state) => {
                     100
                 ).toFixed(0)}%`,
                 w / 2 - 50,
-                70
+                70,
             );
         } else {
             ctx.font = "18px 'dos', monospace";

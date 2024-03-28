@@ -43,7 +43,7 @@ const update = (state, keys, dt) => {
         state.entities.forEach((e) => {
             switch (e.type) {
                 case "rock":
-                    update_rock(e, state.level);
+                    update_rock(e, state.level, tw, th);
                     break;
             }
         });
@@ -56,11 +56,11 @@ const update = (state, keys, dt) => {
     // And pickups?
     const picked_up = pickup_collisions(
         { x: p.x * tw, y: p.y * th },
-        state.entities
+        state.entities,
     );
     if (picked_up.length) {
-        state.entities = state.entities.filter((s) => {
-            switch (s.type) {
+        picked_up.forEach((e) => {
+            switch (e.type) {
                 case "pickup":
                     state.level_t -= 4 * 1000; // Seconds bonus!
                     state.flash = 4;
@@ -71,6 +71,7 @@ const update = (state, keys, dt) => {
                     break;
             }
         });
+        state.entities = state.entities.filter((e) => !picked_up.includes(e));
     }
 
     // Check triggers
@@ -135,7 +136,7 @@ const next_level = async (state, reset = false) => {
     const txt = reset
         ? state.cur_level_txt
         : await load_level(
-              `lvl0${(++state.cur_level % 3) + 1}.txt?t=` + Date.now()
+              `lvl0${(++state.cur_level % 3) + 1}.txt?t=` + Date.now(),
           );
     state.cur_level = state.cur_level % 3;
     state.level = mk_level(txt);
@@ -163,7 +164,9 @@ const next_level = async (state, reset = false) => {
                 state.entities.push(mk_pickup(x * tw, y * th));
                 break;
             case "rock":
-                state.entities.push(mk_rock(x * tw, y * th));
+                state.entities.push(
+                    mk_rock(x * tw, y * th, Math.random() * 0.3 + 1),
+                );
                 break;
         }
     });
