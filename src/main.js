@@ -4,6 +4,7 @@ import { update_player } from "./player.js";
 import { mk_typing_state, update_typing } from "./typing.js";
 import { update_camera } from "./camera.js";
 import { mk_pickup, pickup_collisions } from "./pickup.js";
+import { mk_rock, update_rock } from "./rock.js";
 import { mk_trigger, trigger_collisions } from "./trigger.js";
 import { update_physics } from "./physics.js";
 import { mk_particles, update_particles } from "./particles.js";
@@ -39,6 +40,14 @@ const update = (state, keys, dt) => {
             next_level(state);
         }
     } else {
+        state.entities.forEach((e) => {
+            switch (e.type) {
+                case "rock":
+                    update_rock(e, state.level);
+                    break;
+            }
+        });
+
         update_player(state, keys);
         update_physics(state);
     }
@@ -47,13 +56,21 @@ const update = (state, keys, dt) => {
     // And pickups?
     const picked_up = pickup_collisions(
         { x: p.x * tw, y: p.y * th },
-        state.entities,
+        state.entities
     );
     if (picked_up.length) {
-        state.level_t -= 4 * 1000; // Seconds bonus!
-        state.flash = 4;
-        state.level_picked += picked_up.length;
-        state.entities = state.entities.filter((e) => !picked_up.includes(e));
+        state.entities = state.entities.filter((s) => {
+            switch (s.type) {
+                case "pickup":
+                    state.level_t -= 4 * 1000; // Seconds bonus!
+                    state.flash = 4;
+                    state.level_picked += 1;
+                    break;
+                case "rock":
+                    state.player.dead = true;
+                    break;
+            }
+        });
     }
 
     // Check triggers
@@ -118,7 +135,7 @@ const next_level = async (state, reset = false) => {
     const txt = reset
         ? state.cur_level_txt
         : await load_level(
-              `lvl0${(++state.cur_level % 3) + 1}.txt?t=` + Date.now(),
+              `lvl0${(++state.cur_level % 3) + 1}.txt?t=` + Date.now()
           );
     state.cur_level = state.cur_level % 3;
     state.level = mk_level(txt);
@@ -140,7 +157,15 @@ const next_level = async (state, reset = false) => {
     state.entities = [];
     state.level_picks = spawns.pickups.length;
     spawns.pickups.forEach((p) => {
-        state.entities.push(mk_pickup(p[0] * tw, p[1] * th));
+        const [x, y, type] = p;
+        switch (type) {
+            case "pickup":
+                state.entities.push(mk_pickup(x * tw, y * th));
+                break;
+            case "rock":
+                state.entities.push(mk_rock(x * tw, y * th));
+                break;
+        }
     });
 
     state.triggers = [];

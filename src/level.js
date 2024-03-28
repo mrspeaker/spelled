@@ -25,7 +25,7 @@ export const mk_level = (txt) => {
                 return " ";
             }
             if (ch === "♦") {
-                spawns.pickups.push([x, y]);
+                spawns.pickups.push([x, y, "pickup"]);
                 return " ";
             }
             if (ch === "↑") {
@@ -44,8 +44,13 @@ export const mk_level = (txt) => {
                 spawns.triggers.push({ x, y, type: "door" });
                 return " ";
             }
+            if (ch === "♣") {
+                // rock
+                spawns.pickups.push([x, y, "rock"]);
+                return " ";
+            }
             return ch;
-        }),
+        })
     );
     const post_lines = chars.map((l) => l.join(""));
 
@@ -86,7 +91,7 @@ export const mk_level = (txt) => {
                 cur: null,
                 cur_idx: 0,
                 state: "none",
-            },
+            }
         ).words;
     });
 
